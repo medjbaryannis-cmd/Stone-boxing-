@@ -4435,6 +4435,173 @@ document.getElementById('resetBtn').onclick = async () => {
 
 })();
 </script>
+<div id="splash-screen">
+    <div class="red-glow"></div>
 
+    <img src="mammouth.png" id="mammoth" alt="CBC Mammouth">
+
+    <div class="eyes">
+        <span class="eye left"></span>
+        <span class="eye right"></span>
+    </div>
+
+    <div id="cbc-banner">
+        <span>CBC</span>
+    </div>
+</div>
+
+<style>
+#splash-screen{
+    position:fixed;
+    inset:0;
+    background:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    z-index:99999;
+}
+
+.red-glow{
+    position:absolute;
+    width:700px;
+    height:700px;
+    border-radius:50%;
+    background:radial-gradient(circle,
+        rgba(255,0,0,.45) 0%,
+        rgba(255,0,0,.15) 30%,
+        transparent 70%);
+    animation:pulse 2s infinite;
+}
+
+#mammoth{
+    width:min(55vw,420px);
+    opacity:0;
+    filter:
+        drop-shadow(0 0 10px red)
+        drop-shadow(0 0 30px red);
+    animation:
+        mammothAppear 1.4s forwards,
+        mammothIdle 2s ease-in-out infinite;
+}
+
+.eyes{
+    position:absolute;
+    width:min(55vw,420px);
+    height:auto;
+    pointer-events:none;
+}
+
+.eye{
+    position:absolute;
+    width:12px;
+    height:12px;
+    background:red;
+    border-radius:50%;
+    opacity:0;
+    box-shadow:
+        0 0 10px red,
+        0 0 25px red,
+        0 0 45px red;
+    animation:eyesOn .6s forwards;
+    animation-delay:1.6s;
+}
+
+/* à ajuster selon ton logo */
+.left{
+    left:42%;
+    top:-20px;
+}
+
+.right{
+    right:42%;
+    top:-20px;
+}
+
+#cbc-banner{
+    position:absolute;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    transform:scale(.7);
+    animation:showCBC .5s forwards;
+    animation-delay:2.7s;
+}
+
+#cbc-banner span{
+    background:white;
+    color:black;
+    font-family:Impact, Arial Black, sans-serif;
+    font-weight:900;
+    font-size:min(24vw,220px);
+    padding:.15em .4em;
+    letter-spacing:.08em;
+
+    box-shadow:
+        0 0 20px rgba(255,255,255,.8),
+        0 0 50px rgba(255,0,0,.4);
+}
+
+@keyframes pulse{
+    0%,100%{
+        transform:scale(1);
+        opacity:.7;
+    }
+    50%{
+        transform:scale(1.15);
+        opacity:1;
+    }
+}
+
+@keyframes mammothAppear{
+    from{
+        opacity:0;
+        transform:translateY(40px) scale(.9);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+@keyframes mammothIdle{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-6px);
+    }
+}
+
+@keyframes eyesOn{
+    to{
+        opacity:1;
+    }
+}
+
+@keyframes showCBC{
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+</style>
+
+<script>
+setTimeout(() => {
+
+    const splash = document.getElementById('splash-screen');
+
+    splash.style.transition = 'all .8s ease';
+    splash.style.opacity = '0';
+
+    setTimeout(() => {
+        splash.remove();
+    },800);
+
+}, 5800);
+</script>
 </body>
 </html>
