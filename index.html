@@ -10,9 +10,6 @@
 <meta name="apple-mobile-web-app-title" content="StoneBoxingApp">
 <meta name="mobile-web-app-capable" content="yes">
 <title>StoneBoxingApp</title>
-  <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -436,86 +433,6 @@
     font-style: italic;
     white-space: nowrap;
   }
-
-  .card-tip {
-    margin-top: 14px;
-    padding: 12px;
-    background: rgba(192,97,58,0.06);
-    border-left: 2px solid var(--red);
-    font-size: 11px;
-    color: #888;
-    line-height: 1.7;
-    font-style: italic;
-  }
-
-  /* TECHNIQUES */
-  .combo-card {
-    margin: 0 28px;
-    margin-bottom: 18px;
-    background: var(--bg-mid);
-    border: 1px solid var(--border-mid);
-    border-radius: 2px;
-  }
-
-  .combo-header {
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border-bottom: 1px solid var(--border-mid);
-  }
-
-  .combo-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
-    flex: 1;
-    font-weight: 600;
-    font-style: italic;
-  }
-
-  .combo-level {
-    font-size: 9px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text-dim);
-  }
-
-  .combo-body { padding: 16px 20px; }
-
-  .combo-seq {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-bottom: 12px;
-    align-items: center;
-  }
-
-  .punch {
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border: 1px solid;
-    font-weight: 600;
-  }
-
-  .punch-jab { border-color: var(--blue-punch); color: var(--blue-punch); border-radius: 2px; }
-  .punch-cross { border-color: var(--accent); color: var(--accent); border-radius: 2px; }
-  .punch-hook { border-color: var(--accent2); color: var(--accent2); border-radius: 2px; }
-  .punch-upper { border-color: var(--purple-punch); color: var(--purple-punch); border-radius: 2px; }
-  .punch-move { border-color: var(--border); color: var(--text-dim); font-style: italic; border-radius: 2px; }
-
-  .arrow { color: var(--border); font-size: 14px; }
-
-  .combo-desc {
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.9;
-    font-weight: 300;
-  }
-
-  .badge-blue { background: rgba(74,111,165,0.15); color: var(--blue-punch); }
-  .badge-green { background: rgba(74,140,106,0.13); color: var(--green-punch); }
 
   /* DUO ROLES */
   .duo-roles {
@@ -1084,6 +1001,274 @@
   }
   .ta-nav-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
   .ta-counter { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: rgba(255,255,255,0.8); letter-spacing: -0.5px; }
+
+  /* ═══════════════════════════════════════════════════
+     MESSAGERIE  ·  Stone Boxing Chat
+  ═══════════════════════════════════════════════════ */
+
+  /* ── Layout ── */
+  #panel-chat{display:none;flex-direction:row;height:calc(100vh - 112px);overflow:hidden;}
+  #panel-chat.active{display:flex!important;}
+
+  /* ── Sidebar ── */
+  .csb{width:320px;min-width:240px;flex-shrink:0;border-right:1px solid var(--border);
+       display:flex;flex-direction:column;background:var(--bg);transition:transform .25s;}
+  @media(max-width:700px){
+    .csb{position:absolute;top:0;left:0;bottom:0;width:100%;z-index:10;transform:translateX(0);}
+    .csb.slide-out{transform:translateX(-100%);}
+    #chatConvView{position:absolute;top:0;left:0;bottom:0;right:0;z-index:9;}
+  }
+
+  .csb-head{padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;
+            align-items:center;justify-content:space-between;flex-shrink:0;}
+  .csb-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;
+             font-style:italic;color:var(--text);letter-spacing:-.2px;}
+  .csb-new{background:var(--accent);border:none;color:#fff;width:32px;height:32px;
+           border-radius:50%;font-size:20px;cursor:pointer;display:flex;
+           align-items:center;justify-content:center;transition:opacity .2s;line-height:1;}
+  .csb-new:hover{opacity:.8;}
+
+  .csb-search{position:relative;padding:8px 16px;border-bottom:1px solid var(--border);flex-shrink:0;}
+  .csb-search input{width:100%;background:var(--bg-item);border:1px solid var(--border);
+                    color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;
+                    padding:8px 12px 8px 32px;outline:none;box-sizing:border-box;}
+  .csb-search input:focus{border-color:var(--accent2);}
+  .csb-search-ico{position:absolute;left:26px;top:50%;transform:translateY(-50%);
+                  font-size:13px;color:var(--text-dim);pointer-events:none;}
+
+  .cconv-list{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+  .cconv-list::-webkit-scrollbar{width:3px;}
+  .cconv-list::-webkit-scrollbar-thumb{background:var(--border);}
+
+  .cconv{display:flex;align-items:center;gap:11px;padding:11px 16px;
+         cursor:pointer;border-bottom:1px solid var(--border-mid);transition:background .15s;}
+  .cconv:hover{background:var(--bg-card);}
+  .cconv.on{background:var(--bg-card-expanded);border-left:3px solid var(--accent);padding-left:13px;}
+
+  .cav{width:44px;height:44px;border-radius:50%;background:var(--bg-secondary);
+       border:2px solid var(--border);display:flex;align-items:center;justify-content:center;
+       font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--accent2);
+       flex-shrink:0;text-transform:uppercase;position:relative;overflow:hidden;}
+  .cav img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+  .cav-dot{position:absolute;bottom:1px;right:1px;width:10px;height:10px;
+           background:#4A8C6A;border-radius:50%;border:2px solid var(--bg);}
+
+  .cconv-body{flex:1;min-width:0;}
+  .cconv-name{font-size:13px;font-weight:600;color:var(--text);
+              white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+              display:flex;align-items:center;gap:5px;}
+  .cconv-prev{font-size:12px;color:var(--text-muted);white-space:nowrap;
+              overflow:hidden;text-overflow:ellipsis;margin-top:2px;}
+  .cconv-meta{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;}
+  .cconv-time{font-size:10px;color:var(--text-dim);}
+  .cbadge{background:var(--accent);color:#fff;font-size:10px;font-weight:700;
+          border-radius:10px;min-width:17px;height:17px;display:flex;
+          align-items:center;justify-content:center;padding:0 4px;}
+  .cgrp-tag{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+            padding:1px 5px;background:rgba(74,111,165,.15);color:var(--blue-punch);border-radius:2px;}
+
+  /* ── Zone principale ── */
+  .cmain{flex:1;display:flex;flex-direction:column;min-width:0;background:var(--bg-mid);position:relative;}
+
+  /* Placeholder */
+  .cplaceholder{flex:1;display:flex;flex-direction:column;align-items:center;
+                justify-content:center;gap:12px;background:var(--bg-mid);}
+  .cplaceholder-ico{font-size:56px;opacity:.12;}
+  .cplaceholder-ttl{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;
+                    color:var(--text-muted);opacity:.4;}
+  .cplaceholder-sub{font-size:10px;letter-spacing:2px;text-transform:uppercase;
+                    color:var(--text-dim);opacity:.4;}
+
+  /* ── Header conversation ── */
+  .cmain-head{padding:10px 16px;border-bottom:1px solid var(--border);
+              display:flex;align-items:center;gap:10px;background:var(--bg);flex-shrink:0;}
+  .cmain-back{display:none;background:none;border:none;color:var(--text-muted);
+              font-size:22px;cursor:pointer;padding:0 2px;line-height:1;}
+  @media(max-width:700px){.cmain-back{display:block;}}
+  .cmain-hname{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;
+               font-style:italic;color:var(--text);white-space:nowrap;
+               overflow:hidden;text-overflow:ellipsis;}
+  .cmain-hstatus{font-size:11px;color:#4A8C6A;margin-top:1px;}
+  .cmain-hstatus.off{color:var(--text-dim);}
+  .cmain-hactions{display:flex;gap:6px;flex-shrink:0;margin-left:auto;}
+  .chact{background:none;border:1px solid var(--border);color:var(--text-muted);
+         width:32px;height:32px;border-radius:50%;display:flex;align-items:center;
+         justify-content:center;cursor:pointer;font-size:15px;transition:all .2s;}
+  .chact:hover{border-color:var(--accent);color:var(--accent);}
+
+  /* ── Messages scroll ── */
+  .cmsgs{flex:1;overflow-y:auto;padding:14px 16px;display:flex;
+         flex-direction:column;gap:3px;
+         scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+  .cmsgs::-webkit-scrollbar{width:3px;}
+  .cmsgs::-webkit-scrollbar-thumb{background:var(--border);}
+
+  .cdate-sep{text-align:center;font-size:10px;letter-spacing:2px;text-transform:uppercase;
+             color:var(--text-dim);margin:10px 0 4px;display:flex;align-items:center;gap:8px;}
+  .cdate-sep::before,.cdate-sep::after{content:'';flex:1;height:1px;background:var(--border-mid);}
+
+  /* ── Bulle de message ── */
+  .cmrow{display:flex;flex-direction:column;max-width:70%;margin-bottom:1px;}
+  .cmrow.out{align-self:flex-end;align-items:flex-end;}
+  .cmrow.in{align-self:flex-start;align-items:flex-start;}
+  .cmrow-sender{font-size:9px;letter-spacing:1px;text-transform:uppercase;
+                color:var(--accent2);margin-bottom:3px;padding:0 4px;}
+
+  .cbubble{padding:8px 13px;font-size:14px;line-height:1.55;color:var(--text);
+           word-break:break-word;max-width:100%;}
+  .cmrow.out .cbubble{background:var(--accent);color:#fff;
+                       border-radius:16px 16px 4px 16px;}
+  .cmrow.in  .cbubble{background:var(--bg-item);
+                       border-radius:16px 16px 16px 4px;}
+
+  .cmtime{font-size:10px;color:var(--text-dim);margin-top:1px;padding:0 4px;
+          display:flex;align-items:center;gap:3px;}
+  .cmrow.out .cmtime{color:rgba(255,255,255,.55);}
+  .ctick{font-size:11px;}
+  .ctick.read{color:#4A8C6A;}
+
+  /* ── Réponse citée ── */
+  .cquote{background:rgba(0,0,0,.18);border-left:3px solid var(--accent2);
+          padding:4px 10px;border-radius:3px;margin-bottom:4px;font-size:11px;
+          color:var(--text-muted);max-width:100%;}
+
+  /* ── Bulle fichier ── */
+  .cfile-bub{display:flex;align-items:center;gap:10px;padding:10px 13px;
+             border-radius:14px;min-width:180px;max-width:270px;cursor:pointer;
+             transition:opacity .15s;}
+  .cmrow.out .cfile-bub{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);}
+  .cmrow.in  .cfile-bub{background:var(--bg-card);border:1px solid var(--border);}
+  .cfile-bub:hover{opacity:.85;}
+  .cfile-ico{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;
+             justify-content:center;font-size:17px;flex-shrink:0;}
+  .cfile-ico.video{background:rgba(74,111,165,.2);color:var(--blue-punch);}
+  .cfile-ico.image{background:rgba(74,140,106,.2);color:var(--green-punch);}
+  .cfile-ico.audio{background:rgba(123,94,167,.2);color:var(--purple-punch);}
+  .cfile-ico.doc  {background:rgba(184,154,90,.15);color:var(--accent2);}
+  .cfile-ico.other{background:var(--bg-secondary);color:var(--text-muted);}
+  .cfile-meta{flex:1;min-width:0;}
+  .cfile-name{font-size:12px;font-weight:600;color:var(--text);
+              white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .cmrow.out .cfile-name{color:#fff;}
+  .cfile-sz{font-size:10px;color:var(--text-muted);margin-top:1px;}
+  .cmrow.out .cfile-sz{color:rgba(255,255,255,.6);}
+  .cfile-dl{font-size:15px;color:var(--text-dim);flex-shrink:0;}
+  .cmrow.out .cfile-dl{color:rgba(255,255,255,.7);}
+
+  /* ── Miniature média ── */
+  .cmedia{border-radius:12px;overflow:hidden;position:relative;cursor:pointer;max-width:250px;}
+  .cmedia img,.cmedia video{width:100%;max-height:190px;object-fit:cover;display:block;}
+  .cmedia-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+               width:44px;height:44px;background:rgba(0,0,0,.55);border-radius:50%;
+               display:flex;align-items:center;justify-content:center;font-size:17px;
+               color:#fff;pointer-events:none;}
+  .cmedia-sz{position:absolute;bottom:5px;right:7px;font-size:10px;
+             color:rgba(255,255,255,.85);background:rgba(0,0,0,.45);
+             padding:1px 5px;border-radius:3px;}
+
+  /* ── Upload progress ── */
+  .cup-row{display:flex;align-items:center;gap:10px;padding:10px 13px;
+           background:var(--bg-item);border-radius:14px;min-width:200px;max-width:270px;}
+  .cup-info{flex:1;min-width:0;}
+  .cup-name{font-size:12px;font-weight:600;color:var(--text);
+            white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .cup-bar{height:3px;background:var(--border);border-radius:2px;margin-top:5px;overflow:hidden;}
+  .cup-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .2s;}
+  .cup-pct{font-size:10px;color:var(--text-dim);flex-shrink:0;min-width:28px;text-align:right;}
+
+  /* ── Input zone ── */
+  .cinput-area{padding:8px 12px 10px;border-top:1px solid var(--border);
+               background:var(--bg);flex-shrink:0;position:relative;}
+
+  /* Attach menu */
+  .cattach-menu{display:none;grid-template-columns:repeat(3,1fr);gap:5px;
+                background:var(--bg-card);border:1px solid var(--border);
+                border-radius:14px;padding:8px;margin-bottom:8px;
+                box-shadow:0 10px 32px rgba(0,0,0,.5);}
+  .cattach-menu.open{display:grid;}
+  .cattach-opt{display:flex;flex-direction:column;align-items:center;gap:4px;
+               padding:9px 4px;border-radius:9px;cursor:pointer;
+               background:none;border:none;transition:background .15s;}
+  .cattach-opt:hover{background:var(--bg-secondary);}
+  .cattach-opt-ico{width:38px;height:38px;border-radius:50%;display:flex;
+                   align-items:center;justify-content:center;font-size:19px;}
+  .cattach-opt-lbl{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);}
+
+  /* Reply preview */
+  .creply-pre{background:var(--bg-item);border-left:3px solid var(--accent);
+              padding:5px 10px;border-radius:0 6px 6px 0;margin-bottom:7px;
+              display:none;align-items:center;justify-content:space-between;gap:8px;}
+  .creply-pre.on{display:flex;}
+  .creply-txt{font-size:12px;color:var(--text-muted);white-space:nowrap;
+              overflow:hidden;text-overflow:ellipsis;}
+  .creply-x{background:none;border:none;color:var(--text-dim);cursor:pointer;
+            font-size:15px;padding:0;line-height:1;}
+
+  /* Input row */
+  .cinput-row{display:flex;align-items:flex-end;gap:7px;}
+  .catt-btn{background:none;border:1px solid var(--border);color:var(--text-muted);
+            width:38px;height:38px;border-radius:50%;display:flex;align-items:center;
+            justify-content:center;cursor:pointer;font-size:17px;flex-shrink:0;
+            transition:all .2s;}
+  .catt-btn:hover{border-color:var(--accent2);color:var(--accent2);}
+  .ctxt-wrap{flex:1;background:var(--bg-item);border:1px solid var(--border);
+             border-radius:19px;padding:3px 12px;display:flex;align-items:center;
+             gap:7px;min-height:38px;}
+  .ctxt-wrap:focus-within{border-color:var(--accent2);}
+  .ctxtarea{flex:1;background:none;border:none;outline:none;resize:none;
+            color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;
+            line-height:1.5;max-height:110px;padding:5px 0;overflow-y:auto;}
+  .cemoji-btn{background:none;border:none;font-size:17px;cursor:pointer;
+              opacity:.55;transition:opacity .2s;padding:0;flex-shrink:0;}
+  .cemoji-btn:hover{opacity:1;}
+  .csend-btn{background:var(--accent);border:none;color:#fff;width:38px;height:38px;
+             border-radius:50%;display:flex;align-items:center;justify-content:center;
+             font-size:17px;cursor:pointer;transition:opacity .2s;flex-shrink:0;}
+  .csend-btn:hover{opacity:.85;}
+  .csend-btn:disabled{background:var(--border);cursor:not-allowed;}
+
+  /* Emoji picker */
+  .cemoji-picker{position:absolute;bottom:58px;right:12px;background:var(--bg-card);
+                 border:1px solid var(--border);border-radius:12px;padding:10px;
+                 display:none;flex-wrap:wrap;width:210px;gap:3px;z-index:50;
+                 box-shadow:0 10px 32px rgba(0,0,0,.5);}
+  .cemoji-picker.open{display:flex;}
+  .cep-e{font-size:21px;cursor:pointer;padding:3px;border-radius:5px;transition:background .15s;}
+  .cep-e:hover{background:var(--bg-secondary);}
+
+  /* ── Modal nouvelle conv ── */
+  .cnew-modal{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;
+              display:none;align-items:center;justify-content:center;padding:20px;}
+  .cnew-modal.open{display:flex;}
+  .cnew-box{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;
+            padding:24px;width:100%;max-width:380px;}
+  .cnew-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;
+              font-style:italic;color:var(--text);margin-bottom:16px;}
+  .cnew-inp{width:100%;background:var(--auth-input-bg);border:1px solid var(--border);
+            color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;
+            padding:10px 13px;margin-bottom:9px;outline:none;box-sizing:border-box;}
+  .cnew-inp:focus{border-color:var(--accent2);}
+  .cnew-acts{display:flex;gap:8px;margin-top:4px;}
+  .cnew-ok{flex:1;background:var(--accent);border:none;color:#fff;font-family:'DM Sans',sans-serif;
+           font-size:12px;letter-spacing:1.5px;text-transform:uppercase;padding:10px;cursor:pointer;
+           transition:opacity .2s;}
+  .cnew-ok:hover{opacity:.85;}
+  .cnew-cancel{background:none;border:1px solid var(--border);color:var(--text-muted);
+               font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;
+               text-transform:uppercase;padding:10px 16px;cursor:pointer;}
+
+  /* ── Lightbox ── */
+  .clb{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:1000;
+       display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;}
+  .clb.open{display:flex;}
+  .clb-x{position:absolute;top:14px;right:14px;background:none;border:none;
+          color:#fff;font-size:28px;cursor:pointer;line-height:1;}
+  .clb img{max-width:92vw;max-height:80vh;object-fit:contain;border-radius:4px;}
+  .clb video{max-width:92vw;max-height:80vh;outline:none;border-radius:4px;}
+  .clb-dl{background:var(--accent);border:none;color:#fff;font-family:'DM Sans',sans-serif;
+          font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+          padding:9px 20px;cursor:pointer;border-radius:3px;}
+
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1394,6 +1579,70 @@
 .coach-locked{padding:24px;color:var(--text-muted)}
 </style>
 
+
+<style id="stone-v2-premium-css">
+/* ═══════════════════════════════════════════════════
+   STONE BOXING V2 — couche premium non destructive
+   Garde logo, couleurs, typographies et navigation d'origine.
+════════════════════════════════════════════════════ */
+:root{
+  --sb-radius-xl: 30px;
+  --sb-radius-lg: 22px;
+  --sb-shadow-soft: 0 18px 60px rgba(0,0,0,.26);
+  --sb-glow: 0 0 0 1px rgba(184,154,90,.12), 0 18px 50px rgba(0,0,0,.28);
+}
+.sb-top-icon,.sb-profile-chip{
+  height:34px;min-width:34px;border:1px solid var(--border);background:rgba(255,255,255,.015);
+  color:var(--text-muted);font-family:'DM Sans',sans-serif;display:inline-flex;align-items:center;justify-content:center;
+  transition:.2s ease;line-height:1;border-radius:999px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)
+}
+.sb-top-icon{font-size:17px;padding:0 10px}.sb-profile-chip{padding:0 8px;font-size:10px;letter-spacing:1px;color:var(--accent2);font-weight:700}
+.sb-top-icon:hover,.sb-profile-chip:hover{border-color:var(--accent2);color:var(--text);background:var(--bg-item)}
+/* Chat — rendu plus organique sans casser le JS existant */
+#panel-chat{height:calc(100vh - 128px)!important;background:var(--bg)}
+.csb{background:linear-gradient(180deg,var(--bg) 0%,var(--bg-mid) 100%);border-right:1px solid rgba(184,154,90,.12)}
+.csb-head{padding:18px 18px 14px}.csb-title{font-size:26px}.csb-new{box-shadow:0 10px 28px rgba(192,97,58,.22)}
+.csb-search{padding:10px 16px 12px}.csb-search input{border-radius:999px;border-color:rgba(184,154,90,.12);background:rgba(255,255,255,.025)}
+.cconv{margin:7px 10px;padding:12px 12px;border-bottom:none;border-radius:24px 18px 24px 12px;background:transparent;position:relative}
+.cconv:hover{background:rgba(255,255,255,.03)}.cconv.on{background:linear-gradient(135deg,rgba(192,97,58,.13),rgba(184,154,90,.06));border-left:none;padding-left:12px;box-shadow:var(--sb-glow)}
+.cconv.on::before{content:'';position:absolute;left:0;top:18%;bottom:18%;width:3px;border-radius:9px;background:var(--accent)}
+.cav{border-radius:50%;border:1px solid rgba(184,154,90,.25);background:radial-gradient(circle at 35% 25%,rgba(184,154,90,.22),rgba(74,111,165,.10) 48%,var(--bg-secondary));box-shadow:inset 0 0 0 1px rgba(255,255,255,.03)}
+.cav-dot{background:var(--green-punch);box-shadow:0 0 0 3px var(--bg),0 0 12px rgba(74,140,106,.8)}
+.cconv-name{font-size:13.5px}.cconv-prev{font-size:12px;opacity:.9}.cbadge{border-radius:999px;min-width:19px;height:19px;background:linear-gradient(135deg,var(--accent),#a8502f)}
+.cgrp-tag{border-radius:999px;padding:2px 7px;background:rgba(74,111,165,.14)}
+.cmain{background:radial-gradient(circle at top right,rgba(184,154,90,.06),transparent 35%),var(--bg-mid)}
+.cmain-head{padding:12px 16px;background:rgba(14,17,23,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(184,154,90,.10)}
+.cmain-hname{font-size:19px}.chact{border-radius:50%;background:rgba(255,255,255,.025)}
+.cmsgs{padding:18px 16px 22px;gap:6px;background:radial-gradient(circle at 20% 0%,rgba(192,97,58,.035),transparent 32%)}
+.cmrow{max-width:min(76%,520px);animation:sbMsgIn .18s ease both}.cmrow.out{align-items:flex-end}.cmrow.in{align-items:flex-start}
+@keyframes sbMsgIn{from{opacity:0;transform:translateY(5px) scale(.99)}to{opacity:1;transform:none}}
+.cbubble{padding:10px 14px 9px;font-size:14px;line-height:1.55;box-shadow:0 10px 26px rgba(0,0,0,.14);position:relative;border:1px solid rgba(255,255,255,.025)}
+.cmrow.out .cbubble{background:linear-gradient(135deg,var(--accent),#a45132);color:#fff;border-radius:22px 22px 6px 22px;clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),94% 100%,0 100%)}
+.cmrow.in .cbubble{background:linear-gradient(135deg,var(--bg-item),rgba(35,44,61,.88));border-radius:22px 22px 22px 6px;clip-path:polygon(0 0,100% 0,100% 100%,6% 100%,0 calc(100% - 10px))}
+.cmrow-sender{font-size:9px;color:var(--accent2);margin-left:4px}.cmtime{font-size:9.5px;margin-top:2px;opacity:.8}.ctick.read{color:#8bc7a2}
+.cquote{border-radius:13px;border-left:0;background:rgba(184,154,90,.10);box-shadow:inset 3px 0 0 var(--accent2)}
+.cfile-bub,.cup-row{border-radius:20px 20px 8px 20px}.cmedia{border-radius:22px 22px 8px 22px;box-shadow:var(--sb-shadow-soft)}
+.cinput-area{padding:10px 12px calc(12px + env(safe-area-inset-bottom,0px));background:rgba(14,17,23,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.ctxt-wrap{border-radius:999px;background:rgba(255,255,255,.035);border-color:rgba(184,154,90,.12);padding:4px 12px}.catt-btn,.csend-btn{border-radius:999px}.cattach-menu,.cemoji-picker{border-radius:24px;box-shadow:var(--sb-shadow-soft)}
+/* Workout — pictos propres à la place des emojis */
+.ex-icon{font-size:0!important;width:28px;height:28px;min-width:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:rgba(184,154,90,.08);border:1px solid rgba(184,154,90,.16);position:relative;color:var(--accent2)}
+.ex-icon::before{content:'';width:13px;height:13px;border:1.8px solid currentColor;border-radius:50%;display:block}.exercise-item:nth-child(2n) .ex-icon{color:var(--accent)}.exercise-item:nth-child(3n) .ex-icon{color:var(--blue-punch)}
+.exercise-item:nth-child(2n) .ex-icon::before{border-radius:3px;transform:rotate(45deg)}.exercise-item:nth-child(3n) .ex-icon::before{width:14px;height:8px;border-radius:999px}.exercise-item{border-left:0;border-radius:18px 14px 18px 10px;background:linear-gradient(135deg,rgba(255,255,255,.025),rgba(255,255,255,.01));border:1px solid rgba(184,154,90,.08)}
+.tip-icon{font-size:0!important;width:36px;height:36px;border-radius:50%;background:rgba(184,154,90,.10);display:block;position:relative}.tip-icon::before{content:'';position:absolute;inset:10px;border:2px solid var(--accent2);border-radius:6px;transform:rotate(45deg)}
+/* Drawer apparence */
+.sb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:1300;display:none;opacity:0;transition:.22s}.sb-overlay.open{display:block;opacity:1}
+.sb-drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,92vw);background:linear-gradient(180deg,var(--bg-card),var(--bg));border-left:1px solid rgba(184,154,90,.18);z-index:1301;transform:translateX(105%);transition:.28s cubic-bezier(.16,1,.3,1);box-shadow:-20px 0 70px rgba(0,0,0,.38);padding:26px 22px calc(26px + env(safe-area-inset-bottom,0px));overflow:auto}.sb-drawer.open{transform:none}
+.sb-drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:22px}.sb-kicker{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--accent)}.sb-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:700;font-size:31px;line-height:1;color:var(--text);margin-top:6px}.sb-x{background:none;border:1px solid var(--border);color:var(--text-muted);width:36px;height:36px;border-radius:999px}
+.sb-setting-card{border:1px solid rgba(184,154,90,.12);background:rgba(255,255,255,.025);border-radius:26px 20px 26px 14px;padding:16px;margin:12px 0}.sb-setting-card h4{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px}.sb-choice-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sb-choice{border:1px solid var(--border);background:var(--bg-item);color:var(--text-muted);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:12px;border-radius:999px}.sb-choice.on{border-color:var(--accent2);color:var(--accent2);background:rgba(184,154,90,.09)}
+body.sb-compact .workout-card .card-header{padding-top:16px;padding-bottom:16px}body.sb-compact .cconv{padding-top:9px;padding-bottom:9px}body.sb-reduce-motion *{animation:none!important;transition:none!important}
+body.sb-classic-bubbles .cmrow.out .cbubble,body.sb-classic-bubbles .cmrow.in .cbubble{clip-path:none;border-radius:16px}
+/* Profile modal */
+.sb-modal{position:fixed;inset:0;z-index:1400;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:18px}.sb-modal.open{display:flex}.sb-profile-card{width:min(430px,94vw);background:linear-gradient(180deg,var(--bg-card),var(--bg-mid));border:1px solid rgba(184,154,90,.18);border-radius:34px 24px 34px 16px;box-shadow:var(--sb-shadow-soft);overflow:hidden}.sb-profile-hero{padding:28px 24px 22px;background:radial-gradient(circle at top left,rgba(192,97,58,.18),transparent 42%),linear-gradient(135deg,var(--bg-card),var(--bg));position:relative}.sb-profile-close{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.12);border:1px solid rgba(255,255,255,.08);color:var(--text-muted);width:34px;height:34px;border-radius:999px}.sb-avatar-xl{width:86px;height:86px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:31px;color:var(--accent2);border:1px solid rgba(184,154,90,.25);background:radial-gradient(circle at 35% 25%,rgba(184,154,90,.22),rgba(74,111,165,.12));overflow:hidden;margin-bottom:15px}.sb-avatar-xl img{width:100%;height:100%;object-fit:cover}.sb-profile-name{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:30px;font-weight:700;color:var(--text)}.sb-profile-role{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent2);margin-top:4px}.sb-profile-body{padding:18px 22px 22px}.sb-field{margin-bottom:13px}.sb-field label{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px}.sb-field input,.sb-field textarea,.sb-field select{width:100%;border:1px solid rgba(184,154,90,.12);background:var(--auth-input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;padding:12px 13px;border-radius:18px;outline:none}.sb-field textarea{min-height:78px;resize:vertical}.sb-profile-actions{display:flex;gap:9px}.sb-btn{flex:1;border:1px solid var(--border);background:var(--bg-item);color:var(--text-muted);padding:13px 12px;border-radius:999px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700}.sb-btn.primary{background:var(--accent);border-color:var(--accent);color:#F5F2EC}
+/* Bottom dock: musique + timer discret */
+.sb-dock{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:900;display:flex;align-items:center;gap:10px;padding:9px 10px;background:rgba(14,17,23,.86);border:1px solid rgba(184,154,90,.16);border-radius:999px;box-shadow:0 16px 46px rgba(0,0,0,.32);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}body.light-mode .sb-dock{background:rgba(237,233,224,.88)}.sb-music{flex:1;min-width:0;display:flex;align-items:center;gap:9px}.sb-music-icon{width:30px;height:30px;border-radius:50%;background:rgba(184,154,90,.12);color:var(--accent2);display:flex;align-items:center;justify-content:center;font-size:13px}.sb-track{min-width:0}.sb-track-name{font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sb-track-sub{font-size:9px;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase}.sb-play,.sb-timer-pill{height:32px;border-radius:999px;border:1px solid rgba(184,154,90,.16);background:var(--bg-item);color:var(--text);display:flex;align-items:center;justify-content:center}.sb-play{width:32px}.sb-timer-pill{padding:0 12px;gap:7px;font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--accent2);min-width:90px}.sb-timer-pill small{font-family:'DM Sans',sans-serif;font-size:8px;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase}.sb-dock.hide-music .sb-music{display:none}
+@media(max-width:700px){#panel-chat{height:calc(100vh - 150px)!important}.csb{border-right:none}.cmain{position:relative}.sb-dock{left:8px;right:8px}.sb-track-name{max-width:38vw}.cmrow{max-width:82%}}
+</style>
+
 </head>
 <body>
 
@@ -1402,18 +1651,19 @@
   <div class="tagline">Stone Boxe app<br>by Keldy<br>&amp; Yaya</div>
 <div style="display:flex;align-items:center;gap:8px;">
 <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Mode sombre / clair">🌙</button>
+<button class="sb-top-icon" onclick="sbOpenAppearance()" title="Personnalisation">◐</button>
+<button class="sb-profile-chip" onclick="sbOpenProfile()" title="Mon profil"><span id="sbProfileMini">YM</span></button>
 <button id="authBtn" class="auth-btn">Connexion</button>
 </div></header>
 
 <div class="tabs">
   <button class="tab active" onclick="showPanel('workout', this)">Workout</button>
   <button class="tab" onclick="showPanel('pattes', this)">Pattes d'ours</button>
-  <button class="tab" onclick="showPanel('techniques', this)">Techniques</button>
   <button class="tab" onclick="showPanel('timer', this)">⏱ Timer</button>
-  <button class="tab" onclick="showPanel('conseils', this)">Conseils</button>
+  <button class="tab" id="chatTabBtn" onclick="showPanel('chat', this)">💬 Messages</button>
 </div>
 
-<div class="content" style="padding-bottom:80px;">
+<div class="content" style="padding-bottom:120px;">
 
   <!-- WORKOUT -->
   <div class="panel active" id="panel-workout">
@@ -1462,15 +1712,14 @@
         </div>
         <div class="card-details">
           <ul class="exercise-list">
-            <li class="exercise-item"><span class="ex-icon">🔥</span><span class="ex-name">Échauffement — sauts sur place</span><span class="ex-detail">2 min</span></li>
-            <li class="exercise-item"><span class="ex-icon">👊</span><span class="ex-name">Shadow boxing — jabs lents</span><span class="ex-detail">3 × 1 min</span></li>
-            <li class="exercise-item"><span class="ex-icon">💪</span><span class="ex-name">Pompes classiques</span><span class="ex-detail">3 × 15 reps</span></li>
-            <li class="exercise-item"><span class="ex-icon">🦵</span><span class="ex-name">Squats explosifs</span><span class="ex-detail">3 × 12 reps</span></li>
-            <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Combinaisons shadow boxing</span><span class="ex-detail">4 × 2 min</span></li>
-            <li class="exercise-item"><span class="ex-icon">🏃</span><span class="ex-name">Mountain climbers</span><span class="ex-detail">3 × 30 sec</span></li>
-            <li class="exercise-item"><span class="ex-icon">🧘</span><span class="ex-name">Étirements & récupération</span><span class="ex-detail">5 min</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Échauffement — sauts sur place</span><span class="ex-detail">2 min</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Shadow boxing — jabs lents</span><span class="ex-detail">3 × 1 min</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Pompes classiques</span><span class="ex-detail">3 × 15 reps</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Squats explosifs</span><span class="ex-detail">3 × 12 reps</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Combinaisons shadow boxing</span><span class="ex-detail">4 × 2 min</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Mountain climbers</span><span class="ex-detail">3 × 30 sec</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Étirements & récupération</span><span class="ex-detail">5 min</span></li>
           </ul>
-          <div class="card-tip">💡 Concentre-toi sur la fluidité des mouvements plutôt que la vitesse. La technique prime sur la puissance au début.</div>
         </div>
       </div>
 
@@ -1490,16 +1739,15 @@
         </div>
         <div class="card-details">
           <ul class="exercise-list">
-            <li class="exercise-item"><span class="ex-icon">🔥</span><span class="ex-name">Corde à sauter imaginaire</span><span class="ex-detail">3 min</span></li>
-            <li class="exercise-item"><span class="ex-icon">💪</span><span class="ex-name">Pompes diamant</span><span class="ex-detail">4 × 10 reps</span></li>
-            <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Uppercuts explosifs shadow</span><span class="ex-detail">3 × 2 min</span></li>
-            <li class="exercise-item"><span class="ex-icon">🦵</span><span class="ex-name">Fentes avec pivot</span><span class="ex-detail">3 × 16 reps</span></li>
-            <li class="exercise-item"><span class="ex-icon">💪</span><span class="ex-name">Pompes avec rotation</span><span class="ex-detail">3 × 10 reps</span></li>
-            <li class="exercise-item"><span class="ex-icon">🏃</span><span class="ex-name">Burpees boxing</span><span class="ex-detail">3 × 8 reps</span></li>
-            <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Shadow boxing intensif full combo</span><span class="ex-detail">5 × 2 min</span></li>
-            <li class="exercise-item"><span class="ex-icon">🧘</span><span class="ex-name">Récupération active</span><span class="ex-detail">5 min</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Corde à sauter imaginaire</span><span class="ex-detail">3 min</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Pompes diamant</span><span class="ex-detail">4 × 10 reps</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Uppercuts explosifs shadow</span><span class="ex-detail">3 × 2 min</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Fentes avec pivot</span><span class="ex-detail">3 × 16 reps</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Pompes avec rotation</span><span class="ex-detail">3 × 10 reps</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Burpees boxing</span><span class="ex-detail">3 × 8 reps</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Shadow boxing intensif full combo</span><span class="ex-detail">5 × 2 min</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Récupération active</span><span class="ex-detail">5 min</span></li>
           </ul>
-          <div class="card-tip">💡 Les pompes développent directement la puissance de ton jab et de ton cross. Visualise un adversaire pendant le shadow boxing.</div>
         </div>
       </div>
 
@@ -1519,16 +1767,15 @@
         </div>
         <div class="card-details">
           <ul class="exercise-list">
-            <li class="exercise-item"><span class="ex-icon">🔥</span><span class="ex-name">Footwork + shadow boxing léger</span><span class="ex-detail">5 min</span></li>
-            <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Intervalles shadow HIIT (3×3)</span><span class="ex-detail">6 × 3 min</span></li>
-            <li class="exercise-item"><span class="ex-icon">💪</span><span class="ex-name">Pompes explosives (clap)</span><span class="ex-detail">4 × 8 reps</span></li>
-            <li class="exercise-item"><span class="ex-icon">🦵</span><span class="ex-name">Squats jump avec garde</span><span class="ex-detail">4 × 10 reps</span></li>
-            <li class="exercise-item"><span class="ex-icon">🏃</span><span class="ex-name">Sprint stationnaire 100%</span><span class="ex-detail">6 × 20 sec</span></li>
-            <li class="exercise-item"><span class="ex-icon">💪</span><span class="ex-name">Gainage boxing (punch en planche)</span><span class="ex-detail">3 × 30 sec</span></li>
-            <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Défense + contre — shadow avancé</span><span class="ex-detail">5 × 2 min</span></li>
-            <li class="exercise-item"><span class="ex-icon">🧘</span><span class="ex-name">Étirements complets</span><span class="ex-detail">10 min</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Footwork + shadow boxing léger</span><span class="ex-detail">5 min</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Intervalles shadow HIIT (3×3)</span><span class="ex-detail">6 × 3 min</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Pompes explosives (clap)</span><span class="ex-detail">4 × 8 reps</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Squats jump avec garde</span><span class="ex-detail">4 × 10 reps</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Sprint stationnaire 100%</span><span class="ex-detail">6 × 20 sec</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Gainage boxing (punch en planche)</span><span class="ex-detail">3 × 30 sec</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Défense + contre — shadow avancé</span><span class="ex-detail">5 × 2 min</span></li>
+            <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Étirements complets</span><span class="ex-detail">10 min</span></li>
           </ul>
-          <div class="card-tip">💡 Ce programme simule une vraie séance de sparring. La récupération (1 min entre rounds) est aussi importante que l'effort.</div>
         </div>
       </div>
     </div>
@@ -1563,13 +1810,12 @@
           </div>
           <div class="card-details">
             <ul class="exercise-list">
-              <li class="exercise-item"><span class="ex-icon">🔥</span><span class="ex-name">Corde à sauter — rythme libre</span><span class="ex-detail">3 min</span></li>
-              <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Jabs sur sac — bras tendu, garde maintenue</span><span class="ex-detail">3 × 2 min</span></li>
-              <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Jab + Cross sur sac — coordination</span><span class="ex-detail">3 × 2 min</span></li>
-              <li class="exercise-item"><span class="ex-icon">💪</span><span class="ex-name">Pompes entre les rounds</span><span class="ex-detail">3 × 10 reps</span></li>
-              <li class="exercise-item"><span class="ex-icon">🧘</span><span class="ex-name">Étirements épaules et poignets</span><span class="ex-detail">5 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Corde à sauter — rythme libre</span><span class="ex-detail">3 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Jabs sur sac — bras tendu, garde maintenue</span><span class="ex-detail">3 × 2 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Jab + Cross sur sac — coordination</span><span class="ex-detail">3 × 2 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Pompes entre les rounds</span><span class="ex-detail">3 × 10 reps</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Étirements épaules et poignets</span><span class="ex-detail">5 min</span></li>
             </ul>
-            <div class="card-tip">💡 Ne pas frapper à pleine puissance au début. Travaille d'abord la position du poignet.</div>
           </div>
         </div>
         <div class="workout-card" onclick="toggleCard(this)">
@@ -1587,13 +1833,12 @@
           </div>
           <div class="card-details">
             <ul class="exercise-list">
-              <li class="exercise-item"><span class="ex-icon">🪢</span><span class="ex-name">Corde à sauter — doubles pieds</span><span class="ex-detail">3 × 2 min</span></li>
-              <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Combos 1-2-3 sur sac</span><span class="ex-detail">4 × 2 min</span></li>
-              <li class="exercise-item"><span class="ex-icon">🪢</span><span class="ex-name">Corde à sauter — alternance pieds</span><span class="ex-detail">2 × 2 min</span></li>
-              <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Uppercuts sur sac — cible basse</span><span class="ex-detail">3 × 1 min</span></li>
-              <li class="exercise-item"><span class="ex-icon">🧘</span><span class="ex-name">Récupération active</span><span class="ex-detail">5 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Corde à sauter — doubles pieds</span><span class="ex-detail">3 × 2 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Combos 1-2-3 sur sac</span><span class="ex-detail">4 × 2 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Corde à sauter — alternance pieds</span><span class="ex-detail">2 × 2 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Uppercuts sur sac — cible basse</span><span class="ex-detail">3 × 1 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Récupération active</span><span class="ex-detail">5 min</span></li>
             </ul>
-            <div class="card-tip">💡 Alterner corde et sac reproduit les phases effort/récupération d'un combat.</div>
           </div>
         </div>
       </div>
@@ -1620,13 +1865,12 @@
           </div>
           <div class="card-details">
             <ul class="exercise-list">
-              <li class="exercise-item"><span class="ex-icon">🪢</span><span class="ex-name">Corde — sprint 30 sec / repos 15 sec</span><span class="ex-detail">6 × 45 sec</span></li>
-              <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Rounds sac format combat (3 min / 1 min repos)</span><span class="ex-detail">6 rounds</span></li>
-              <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Travail corps : hooks + uppercuts bas</span><span class="ex-detail">Rounds 3 & 4</span></li>
-              <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Combos libres + déplacements autour du sac</span><span class="ex-detail">Rounds 5 & 6</span></li>
-              <li class="exercise-item"><span class="ex-icon">🧘</span><span class="ex-name">Étirements complets</span><span class="ex-detail">8 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Corde — sprint 30 sec / repos 15 sec</span><span class="ex-detail">6 × 45 sec</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Rounds sac format combat (3 min / 1 min repos)</span><span class="ex-detail">6 rounds</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Travail corps : hooks + uppercuts bas</span><span class="ex-detail">Rounds 3 & 4</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Combos libres + déplacements autour du sac</span><span class="ex-detail">Rounds 5 & 6</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Étirements complets</span><span class="ex-detail">8 min</span></li>
             </ul>
-            <div class="card-tip">💡 Déplace-toi autour du sac entre chaque combo. Le sac simule un adversaire : bouge comme si tu évitais des contre-attaques.</div>
           </div>
         </div>
         <div class="workout-card" onclick="toggleCard(this)">
@@ -1644,13 +1888,12 @@
           </div>
           <div class="card-details">
             <ul class="exercise-list">
-              <li class="exercise-item"><span class="ex-icon">🔥</span><span class="ex-name">Shadow boxing échauffement</span><span class="ex-detail">5 min</span></li>
-              <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Frappes puissance max sur sac — 5 coups / pause</span><span class="ex-detail">4 × 2 min</span></li>
-              <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Rafales de vitesse sur sac — max reps en 10 sec</span><span class="ex-detail">8 × 10 sec</span></li>
-              <li class="exercise-item"><span class="ex-icon">🐾</span><span class="ex-name">Pattes d'ours avec coach — combos annoncés</span><span class="ex-detail">4 × 2 min</span></li>
-              <li class="exercise-item"><span class="ex-icon">🪢</span><span class="ex-name">Corde finisher — double Dutch</span><span class="ex-detail">3 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Shadow boxing échauffement</span><span class="ex-detail">5 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Frappes puissance max sur sac — 5 coups / pause</span><span class="ex-detail">4 × 2 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Rafales de vitesse sur sac — max reps en 10 sec</span><span class="ex-detail">8 × 10 sec</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Pattes d'ours avec coach — combos annoncés</span><span class="ex-detail">4 × 2 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Corde finisher — double Dutch</span><span class="ex-detail">3 min</span></li>
             </ul>
-            <div class="card-tip">💡 Alterner puissance et vitesse dans la même séance conditionne le système nerveux à switcher entre les deux modes.</div>
           </div>
         </div>
       </div>
@@ -1677,14 +1920,13 @@
           </div>
           <div class="card-details">
             <ul class="exercise-list">
-              <li class="exercise-item"><span class="ex-icon">🪢</span><span class="ex-name">Corde à sauter — 10 min non-stop</span><span class="ex-detail">10 min</span></li>
-              <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Shadow boxing technique</span><span class="ex-detail">3 × 3 min</span></li>
-              <li class="exercise-item"><span class="ex-icon">🐾</span><span class="ex-name">Pattes d'ours avec coach — combos libres</span><span class="ex-detail">4 × 3 min</span></li>
-              <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Sac lourd — rounds format compétition</span><span class="ex-detail">6 × 3 min</span></li>
-              <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Sparring technique (contact contrôlé)</span><span class="ex-detail">3 × 3 min</span></li>
-              <li class="exercise-item"><span class="ex-icon">🧘</span><span class="ex-name">Récupération + debriefing coach</span><span class="ex-detail">10 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Corde à sauter — 10 min non-stop</span><span class="ex-detail">10 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Shadow boxing technique</span><span class="ex-detail">3 × 3 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Pattes d'ours avec coach — combos libres</span><span class="ex-detail">4 × 3 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Sac lourd — rounds format compétition</span><span class="ex-detail">6 × 3 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Sparring technique (contact contrôlé)</span><span class="ex-detail">3 × 3 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Récupération + debriefing coach</span><span class="ex-detail">10 min</span></li>
             </ul>
-            <div class="card-tip">💡 Cette séance reproduit la structure d'une vraie journée d'entraînement en club.</div>
           </div>
         </div>
         <div class="workout-card" onclick="toggleCard(this)">
@@ -1702,13 +1944,12 @@
           </div>
           <div class="card-details">
             <ul class="exercise-list">
-              <li class="exercise-item"><span class="ex-icon">🪢</span><span class="ex-name">Corde — 30 sec sprint / 15 sec repos</span><span class="ex-detail">10 × 45 sec</span></li>
-              <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Sac — Tabata 20 sec max / 10 sec repos</span><span class="ex-detail">8 × 30 sec</span></li>
-              <li class="exercise-item"><span class="ex-icon">💪</span><span class="ex-name">Burpees boxing (pompe + jab-cross debout)</span><span class="ex-detail">4 × 10 reps</span></li>
-              <li class="exercise-item"><span class="ex-icon">🥊</span><span class="ex-name">Rounds libres sac — récupération active</span><span class="ex-detail">3 × 3 min</span></li>
-              <li class="exercise-item"><span class="ex-icon">🧘</span><span class="ex-name">Étirements & respiration</span><span class="ex-detail">8 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Corde — 30 sec sprint / 15 sec repos</span><span class="ex-detail">10 × 45 sec</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Sac — Tabata 20 sec max / 10 sec repos</span><span class="ex-detail">8 × 30 sec</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Burpees boxing (pompe + jab-cross debout)</span><span class="ex-detail">4 × 10 reps</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Rounds libres sac — récupération active</span><span class="ex-detail">3 × 3 min</span></li>
+              <li class="exercise-item"><span class="ex-icon"></span><span class="ex-name">Étirements & respiration</span><span class="ex-detail">8 min</span></li>
             </ul>
-            <div class="card-tip">💡 Le format Tabata pousse le seuil anaérobie au maximum. Réservé aux boxeurs avec une bonne base cardio.</div>
           </div>
         </div>
       </div>
@@ -1756,7 +1997,6 @@
             <li class="duo-step"><span class="step-role step-role-b">B</span><span class="step-text">Annonce les coups à voix haute pour que A anticipe et enchaîne.</span><span class="step-detail">Rythmé</span></li>
             <li class="duo-step"><span class="step-role step-role-ab">A + B</span><span class="step-text">Échange les rôles après chaque round. 1 min de repos entre les rounds.</span><span class="step-detail">× 3 rounds</span></li>
           </ul>
-          <div class="card-tip">💡 B doit absorber les coups en repliant légèrement les poignets.</div>
         </div>
       </div>
 
@@ -1780,7 +2020,6 @@
             <li class="duo-step"><span class="step-role step-role-b">B</span><span class="step-text">Esquive avec un slip extérieur. Garde maintenue.</span><span class="step-detail">Slip droit/gauche</span></li>
             <li class="duo-step"><span class="step-role step-role-b">B</span><span class="step-text">Après le slip, contre avec un jab ou cross sur les gants de A.</span><span class="step-detail">1 counter</span></li>
           </ul>
-          <div class="card-tip">💡 B doit garder les yeux ouverts — ne jamais fermer les yeux face au coup.</div>
         </div>
       </div>
 
@@ -1804,7 +2043,6 @@
             <li class="duo-step"><span class="step-role step-role-b">B</span><span class="step-text">Dévie le jab (parry), esquive le cross avec un slip ou step back.</span><span class="step-detail">Parry + esquive</span></li>
             <li class="duo-step"><span class="step-role step-role-b">B</span><span class="step-text">Après chaque défense, contre avec un jab ou cross sur les gants de A.</span><span class="step-detail">1 counter max</span></li>
           </ul>
-          <div class="card-tip">💡 Le parry est une déviation légère — moins de 10 cm suffisent.</div>
         </div>
       </div>
 
@@ -1828,7 +2066,6 @@
             <li class="duo-step"><span class="step-role step-role-b">B</span><span class="step-text">Maintient la distance. Recule avec des pas latéraux sans croiser les pieds.</span><span class="step-detail">Mouvement continu</span></li>
             <li class="duo-step"><span class="step-role step-role-b">B</span><span class="step-text">Quand B trouve un angle, riposte 1-2 rapide puis recrée la distance.</span><span class="step-detail">Counter + sortie</span></li>
           </ul>
-          <div class="card-tip">💡 Simule le travail de ring réel. Développe la pression et l'intelligence positionnelle.</div>
         </div>
       </div>
 
@@ -1852,7 +2089,6 @@
             <li class="duo-step"><span class="step-role step-role-ab">A + B</span><span class="step-text">Déplacements libres. Attaque, défense, contre, footwork.</span><span class="step-detail">Libre</span></li>
             <li class="duo-step"><span class="step-role step-role-ab">Debriefing</span><span class="step-text">1 minute d'échange après chaque round.</span><span class="step-detail">1 min feedback</span></li>
           </ul>
-          <div class="card-tip">💡 Outil pédagogique, pas une compétition. L'ego doit rester au vestiaire.</div>
         </div>
       </div>
     </div>
@@ -1891,7 +2127,6 @@
             <li class="team-step"><span class="step-num">2</span><span class="step-text">Au signal de fin, rotation dans le sens des aiguilles d'une montre vers le sac suivant. 20 sec de transition.</span><span class="ex-detail">Rotation</span></li>
             <li class="team-step"><span class="step-num">3</span><span class="step-text">Chaque sac peut avoir une consigne différente — jabs, combos imposés, body shots.</span><span class="ex-detail">Variantes</span></li>
           </ul>
-          <div class="card-tip">💡 L'attente entre rotations se comble par des pompes ou squats pour maintenir l'intensité.</div>
         </div>
       </div>
 
@@ -1914,7 +2149,6 @@
             <li class="team-step"><span class="step-num">2</span><span class="step-text">Entre chaque round, 30 sec de récupération active.</span><span class="ex-detail">30 sec repos</span></li>
             <li class="team-step"><span class="step-num">3</span><span class="step-text">Le meneur impose le rythme et les combinaisons. Tout le groupe synchronisé.</span><span class="ex-detail">Synchronisé</span></li>
           </ul>
-          <div class="card-tip">💡 La synchronisation crée une émulation naturelle. Personne ne veut décrocher le premier.</div>
         </div>
       </div>
     </div>
@@ -1953,7 +2187,6 @@
             <li class="team-step"><span class="step-num">2</span><span class="step-text">Chaque station dure 3 min. Signal sonore pour la rotation. 30 sec entre chaque.</span><span class="ex-detail">3 min / station</span></li>
             <li class="team-step"><span class="step-num">3</span><span class="step-text">3 tours complets. Total environ 45–60 min selon le nombre de stations.</span><span class="ex-detail">3 tours</span></li>
           </ul>
-          <div class="card-tip">💡 Idéal pour les groupes hétérogènes. Chaque station peut être adaptée au niveau.</div>
         </div>
       </div>
 
@@ -1976,7 +2209,6 @@
             <li class="team-step"><span class="step-num">2</span><span class="step-text">Le boxeur frappe les gants présentés alternativement gauche et droite en avançant.</span><span class="ex-detail">Frappe continue</span></li>
             <li class="team-step"><span class="step-num">3</span><span class="step-text">45 sec par passage. Ceux qui attendent font des pompes ou squats.</span><span class="ex-detail">45 sec / passage</span></li>
           </ul>
-          <div class="card-tip">💡 Le Gauntlet est l'exercice collectif le plus intense. Réservé aux boxeurs maîtrisant les fondamentaux.</div>
         </div>
       </div>
     </div>
@@ -2029,7 +2261,6 @@
           <li class="patte-step"><span class="step-who who-coach">Coach</span><span class="step-text">Corrige la position de la main libre (doit rester collée à la tempe) et l'alignement du poignet à l'impact.</span></li>
           <li class="patte-step"><span class="step-who who-both">Les deux</span><span class="step-text">Montée progressive en vitesse. Le coach accélère le rythme des présentations toutes les 30 sec.</span></li>
         </ul>
-        <div class="card-tip">💡 Le coach doit présenter la patte légèrement avant l'arrivée du coup pour créer une anticipation naturelle — pas trop tôt (pas de réactivité), pas trop tard (mauvais timing).</div>
       </div>
     </div>
 
@@ -2061,7 +2292,6 @@
           <li class="patte-step"><span class="step-who who-boxer">Boxeur</span><span class="step-text">Enchaîne les trois coups sans temps mort. Le hook s'effectue avec un pivot du pied avant et rotation du buste.</span></li>
           <li class="patte-step"><span class="step-who who-coach">Coach</span><span class="step-text">Après le hook, recule d'un pas et relance le combo. Varie l'espace entre les répétitions pour créer de l'incertitude.</span></li>
         </ul>
-        <div class="card-tip">💡 Le hook sur patte d'ours doit arriver avec le coude à 90° — pas un uppercut déguisé. La patte du coach doit être orientée vers le sol pour guider le bon angle.</div>
       </div>
     </div>
 
@@ -2096,7 +2326,6 @@
           <li class="patte-step"><span class="step-who who-boxer">Boxeur</span><span class="step-text">Après l'esquive, contre immédiatement avec cross + hook sur les pattes repositionnées.</span></li>
           <li class="patte-step"><span class="step-who who-both">Les deux</span><span class="step-text">Le coach varie la direction de sa frappe (gauche/droite) pour forcer le boxeur à lire et réagir différemment.</span></li>
         </ul>
-        <div class="card-tip">💡 Le mouvement du coach doit rester contrôlé — le but n'est pas de toucher mais de créer une contrainte réaliste. La qualité de l'esquive prime sur la vitesse du counter.</div>
       </div>
     </div>
 
@@ -2128,7 +2357,6 @@
           <li class="patte-step"><span class="step-who who-boxer">Boxeur</span><span class="step-text">L'uppercut part d'une légère flexion des genoux — explosion vers le haut. Enchaîne sans perdre la garde.</span></li>
           <li class="patte-step"><span class="step-who who-coach">Coach</span><span class="step-text">Variante : ajouter un jab d'appel avant l'uppercut (1 + upper G. + hook D. + cross) pour travailler la création d'ouvertures.</span></li>
         </ul>
-        <div class="card-tip">💡 Combo particulièrement efficace pour travailler les coups du corps vers la tête. L'uppercut force l'adversaire virtuel à monter sa garde, ouvrant le hook et le cross.</div>
       </div>
     </div>
 
@@ -2162,7 +2390,6 @@
           <li class="patte-step"><span class="step-who who-boxer">Boxeur</span><span class="step-text">Fléchit les genoux pour les coups corps (ne pas courber le dos), puis se redresse pour les coups à la tête. Transition fluide.</span></li>
           <li class="patte-step"><span class="step-who who-coach">Coach</span><span class="step-text">Varie la hauteur des pattes sans prévenir pour forcer l'adaptation en temps réel. Le boxeur doit lire la cible, pas anticiper.</span></li>
         </ul>
-        <div class="card-tip">💡 Travailler corps-tête développe la capacité à créer des ouvertures — un enchaînement au corps fait naturellement descendre les bras de l'adversaire.</div>
       </div>
     </div>
 
@@ -2190,7 +2417,6 @@
           <li class="patte-step"><span class="step-who who-boxer">Boxeur</span><span class="step-text">Maintenir la garde et la technique même à fatigue maximale. La qualité ne doit pas s'effondrer dans les dernières secondes.</span></li>
           <li class="patte-step"><span class="step-who who-coach">Coach</span><span class="step-text">Compte les coups pour chaque round — le boxeur doit battre son propre record à chaque série.</span></li>
         </ul>
-        <div class="card-tip">💡 Le coach doit être suffisamment mobile et endurant pour ce format. Si nécessaire, alterner les rôles ou faire des pauses entre les séries.</div>
       </div>
     </div>
 
@@ -2216,7 +2442,6 @@
           <li class="patte-step"><span class="step-who who-coach">Coach</span><span class="step-text">Envoie ponctuellement une patte vers le boxeur (jab simulé) pour tester sa défense. Le boxeur doit esquiver et counter immédiatement.</span></li>
           <li class="patte-step"><span class="step-who who-both">Les deux</span><span class="step-text">Simule un vrai sparring avec la sécurité du travail aux pattes. L'intensité doit être proche d'un vrai round de combat.</span></li>
         </ul>
-        <div class="card-tip">💡 C'est l'exercice aux pattes le plus proche de la réalité du combat. Le coach doit avoir une bonne condition physique pour tenir le rythme sur 4 rounds de 3 minutes.</div>
       </div>
     </div>
 
@@ -2242,7 +2467,6 @@
           <li class="patte-step"><span class="step-who who-coach">Coach</span><span class="step-text">Peut retirer une patte juste avant l'impact (fausse cible) pour tester le contrôle et éviter la surengagement.</span></li>
           <li class="patte-step"><span class="step-who who-coach">Coach</span><span class="step-text">Donne un feedback immédiat après chaque séquence : vitesse de lecture, qualité de la garde, gestion de l'espace.</span></li>
         </ul>
-        <div class="card-tip">💡 Cet exercice développe la vitesse de traitement de l'information — qualité essentielle pour les boxeurs de haut niveau. Plus difficile mentalement que physiquement.</div>
       </div>
     </div>
 
@@ -2251,117 +2475,7 @@
     </div>
   </div>
 
-  <!-- TECHNIQUES -->
-  <div class="panel" id="panel-techniques">
-    <div class="hero">
-      <div class="hero-label">Shadow Boxing</div>
-      <div class="hero-title">COMBOS<br>À MAÎTRISER</div>
-      <div class="hero-desc">Les combinaisons fondamentales à pratiquer en shadow boxing pour développer ta coordination et ta technique.</div>
-    </div>
 
-    <div style="padding: 24px 24px 12px; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #555;">Légende des coups</div>
-
-    <div style="display: flex; gap: 8px; padding: 0 24px 24px; flex-wrap: wrap;">
-      <span class="punch punch-jab">JAB</span>
-      <span class="punch punch-cross">CROSS</span>
-      <span class="punch punch-hook">HOOK</span>
-      <span class="punch punch-upper">UPPER</span>
-      <span class="punch punch-move">ESQUIVE</span>
-    </div>
-
-    <div class="section-title" style="margin-bottom: 16px;">Combinaisons</div>
-
-    <div class="combo-card">
-      <div class="combo-header">
-        <div class="combo-title">LE 1-2</div>
-        <span class="combo-level" style="color: var(--blue-punch);">Débutant</span>
-      </div>
-      <div class="combo-body">
-        <div class="combo-seq">
-          <span class="punch punch-jab">JAB</span>
-          <span class="arrow">→</span>
-          <span class="punch punch-cross">CROSS</span>
-        </div>
-        <div class="combo-desc">Le fondamental de la boxe. Jab pour mesurer la distance, cross pour frapper fort. Réinitialise ta garde immédiatement après.</div>
-      </div>
-    </div>
-
-    <div class="combo-card">
-      <div class="combo-header">
-        <div class="combo-title">LE 1-2-3</div>
-        <span class="combo-level" style="color: var(--blue-punch);">Débutant</span>
-      </div>
-      <div class="combo-body">
-        <div class="combo-seq">
-          <span class="punch punch-jab">JAB</span>
-          <span class="arrow">→</span>
-          <span class="punch punch-cross">CROSS</span>
-          <span class="arrow">→</span>
-          <span class="punch punch-hook">HOOK G.</span>
-        </div>
-        <div class="combo-desc">Le combo classique 3 coups. Enchaîne le hook gauche après le cross sans relâcher la tension. Pivote légèrement sur la jambe gauche pour le hook.</div>
-      </div>
-    </div>
-
-    <div class="combo-card">
-      <div class="combo-header">
-        <div class="combo-title">PARRY & COUNTER</div>
-        <span class="combo-level" style="color: var(--accent2);">Intermédiaire</span>
-      </div>
-      <div class="combo-body">
-        <div class="combo-seq">
-          <span class="punch punch-move">ESQUIVE</span>
-          <span class="arrow">→</span>
-          <span class="punch punch-jab">JAB</span>
-          <span class="arrow">→</span>
-          <span class="punch punch-cross">CROSS</span>
-        </div>
-        <div class="combo-desc">Visualise un jab entrant, dévie avec la main arrière, contre immédiatement. Développe les réflexes défensifs essentiels.</div>
-      </div>
-    </div>
-
-    <div class="combo-card">
-      <div class="combo-header">
-        <div class="combo-title">LE CLASSIQUE</div>
-        <span class="combo-level" style="color: var(--accent2);">Intermédiaire</span>
-      </div>
-      <div class="combo-body">
-        <div class="combo-seq">
-          <span class="punch punch-jab">JAB</span>
-          <span class="arrow">→</span>
-          <span class="punch punch-cross">CROSS</span>
-          <span class="arrow">→</span>
-          <span class="punch punch-hook">HOOK G.</span>
-          <span class="arrow">→</span>
-          <span class="punch punch-cross">CROSS</span>
-        </div>
-        <div class="combo-desc">Le 1-2-3-2 ; combo 4 temps très utilisé en compétition. Le deuxième cross exploite l'ouverture créée par le hook.</div>
-      </div>
-    </div>
-
-    <div class="combo-card">
-      <div class="combo-header">
-        <div class="combo-title">BODY ATTACK</div>
-        <span class="combo-level" style="color: var(--accent);">Avancé</span>
-      </div>
-      <div class="combo-body">
-        <div class="combo-seq">
-          <span class="punch punch-jab">JAB</span>
-          <span class="arrow">→</span>
-          <span class="punch punch-upper">UPPER D.</span>
-          <span class="arrow">→</span>
-          <span class="punch punch-hook">HOOK G.</span>
-          <span class="arrow">→</span>
-          <span class="punch punch-cross">CROSS</span>
-        </div>
-        <div class="combo-desc">L'uppercut amène la tête en arrière, le hook capitalise sur l'ouverture. Enchaîne sans pause. Excellente simulation de combat réel.</div>
-      </div>
-    </div>
-
-    <div class="panel-footer">
-      <p>Pratique chaque combo lentement, puis monte la cadence.<br>La vitesse vient après la maîtrise du mouvement.</p>
-    </div>
-  </div>
 
   <!-- TIMER -->
   <div class="panel" id="panel-timer">
@@ -2436,60 +2550,129 @@
     </div>
 
   </div>
+  <!-- ═══════════════════════════════════════════════════
+       MESSAGERIE  ·  Stone Boxing Chat
+  ═══════════════════════════════════════════════════ -->
+  <div class="panel" id="panel-chat">
 
-  <!-- CONSEILS -->
-  <div class="panel" id="panel-conseils">
-    <div class="hero">
-      <div class="hero-label">Optimise ta pratique</div>
-      <div class="hero-title">CONSEILS<br>D'EXPERTS</div>
-      <div class="hero-desc">Les principes fondamentaux pour progresser vite et éviter les blessures.</div>
-    </div>
-
-    <div class="tips-grid">
-      <div class="tip-card">
-        <span class="tip-icon">👊</span>
-        <div class="tip-title">La garde, toujours</div>
-        <div class="tip-text">Mains à hauteur des tempes, menton rentré, épaules légèrement remontées. Revenir en garde après CHAQUE coup. C'est la base que les débutants négligent le plus.</div>
+    <!-- Sidebar conversations -->
+    <div class="csb" id="chatSidebar">
+      <div class="csb-head">
+        <span class="csb-title">Messages</span>
+        <button class="csb-new" title="Nouvelle conversation" onclick="chatOpenNewModal()">＋</button>
       </div>
-
-      <div class="tip-card">
-        <span class="tip-icon">🦵</span>
-        <div class="tip-title">Travail de jambes</div>
-        <div class="tip-text">70% de la puissance vient du sol. Pousse depuis le talon, pivote sur la plante du pied, transfère le poids. Un cross sans rotation de hanche n'est qu'une poussée.</div>
+      <div class="csb-search">
+        <span class="csb-search-ico">🔍</span>
+        <input type="text" placeholder="Chercher…" oninput="chatFilter(this.value)">
       </div>
-
-      <div class="tip-card">
-        <span class="tip-icon">💨</span>
-        <div class="tip-title">Respiration & expiration</div>
-        <div class="tip-text">Expire sharply sur chaque coup (le "pshh"). Ça engage le core, protège contre les coups au corps et maintient le rythme respiratoire en combat.</div>
-      </div>
-
-      <div class="tip-card">
-        <span class="tip-icon">🧠</span>
-        <div class="tip-title">Visualisation active</div>
-        <div class="tip-text">Ne fais jamais de shadow boxing "dans le vide". Visualise un adversaire : ses mouvements, ses ouvertures, sa garde. La qualité de visualisation détermine la qualité de l'entraînement.</div>
-      </div>
-
-      <div class="tip-card">
-        <span class="tip-icon">📈</span>
-        <div class="tip-title">Progression progressive</div>
-        <div class="tip-text">Commence lent, monte en vitesse. La vitesse maximale avec mauvaise technique crée des automatismes incorrects difficiles à corriger. 3 semaines à 60% de puissance, puis 80%, puis 100%.</div>
-      </div>
-
-      <div class="tip-card">
-        <span class="tip-icon">🔄</span>
-        <div class="tip-title">Récupération = progression</div>
-        <div class="tip-text">Le muscle se construit pendant le repos. 2 à 3 séances par semaine avec 48h de récupération est bien plus efficace que 5 séances épuisantes. Dors 7-9h.</div>
+      <div class="cconv-list" id="chatConvList">
+        <div style="padding:28px 18px;text-align:center;color:var(--text-dim);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;">Chargement…</div>
       </div>
     </div>
 
-    <div class="section-title" style="margin-top:16px;">⏱ Chronomètre de rounds</div>
-    <div style="padding:0 0 16px;">
-    </div>
-    <div class="panel-footer">
-      <p>STONE BOXING — Entraînement sans matériel<br>Adapte toujours l'intensité à ton niveau du jour.</p>
+    <!-- Zone principale -->
+    <div class="cmain">
+
+      <!-- Placeholder (aucune conv sélectionnée) -->
+      <div class="cplaceholder" id="chatPlaceholder">
+        <div class="cplaceholder-ico">🥊</div>
+        <div class="cplaceholder-ttl">Stone Boxing Chat</div>
+        <div class="cplaceholder-sub">Sélectionne une conversation</div>
+      </div>
+
+      <!-- Vue conversation active -->
+      <div id="chatConvView" style="display:none;flex-direction:column;flex:1;min-height:0;overflow:hidden;">
+
+        <div class="cmain-head">
+          <button class="cmain-back" onclick="chatBack()">‹</button>
+          <div class="cav" id="chatHdrAv" style="width:36px;height:36px;font-size:13px;">?</div>
+          <div style="flex:1;min-width:0;">
+            <div class="cmain-hname" id="chatHdrName">—</div>
+            <div class="cmain-hstatus" id="chatHdrStatus">En ligne</div>
+          </div>
+          <div class="cmain-hactions">
+            <button class="chact" title="Appel vidéo" onclick="alert('Bientôt disponible 🎥')">📹</button>
+            <button class="chact" title="Profil" onclick="sbOpenProfileFromChat()">ℹ</button>
+          </div>
+        </div>
+
+        <div class="cmsgs" id="chatMsgs"></div>
+
+        <div class="cinput-area">
+          <!-- Reply preview -->
+          <div class="creply-pre" id="chatReplyPre">
+            <span class="creply-txt" id="chatReplyTxt"></span>
+            <button class="creply-x" onclick="chatCancelReply()">✕</button>
+          </div>
+
+          <!-- Attach menu -->
+          <div class="cattach-menu" id="chatAttachMenu">
+            <button class="cattach-opt" onclick="chatPickFile('video/*')">
+              <div class="cattach-opt-ico" style="background:rgba(74,111,165,.2)">🎬</div>
+              <span class="cattach-opt-lbl">Vidéo</span>
+            </button>
+            <button class="cattach-opt" onclick="chatPickFile('image/*')">
+              <div class="cattach-opt-ico" style="background:rgba(74,140,106,.2)">🖼️</div>
+              <span class="cattach-opt-lbl">Photo</span>
+            </button>
+            <button class="cattach-opt" onclick="chatPickFile('audio/*')">
+              <div class="cattach-opt-ico" style="background:rgba(123,94,167,.2)">🎵</div>
+              <span class="cattach-opt-lbl">Audio</span>
+            </button>
+            <button class="cattach-opt" onclick="chatPickFile('.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx')">
+              <div class="cattach-opt-ico" style="background:rgba(184,154,90,.15)">📄</div>
+              <span class="cattach-opt-lbl">Document</span>
+            </button>
+            <button class="cattach-opt" onclick="chatPickFile('*/*')">
+              <div class="cattach-opt-ico" style="background:var(--bg-secondary)">📁</div>
+              <span class="cattach-opt-lbl">Fichier</span>
+            </button>
+            <button class="cattach-opt" onclick="chatPickFile('*/*')" title="Jusqu'à 500 Mo">
+              <div class="cattach-opt-ico" style="background:rgba(192,97,58,.15)">📦</div>
+              <span class="cattach-opt-lbl">500 Mo max</span>
+            </button>
+          </div>
+
+          <div class="cinput-row">
+            <button class="catt-btn" id="chatAttBtn" onclick="chatToggleAttach()">📎</button>
+            <div class="ctxt-wrap">
+              <textarea class="ctxtarea" id="chatTA" rows="1"
+                placeholder="Message…"
+                oninput="chatTAResize(this)"
+                onkeydown="chatTAKey(event)"></textarea>
+              <button class="cemoji-btn" onclick="chatToggleEmoji()">😊</button>
+            </div>
+            <button class="csend-btn" onclick="chatSend()">➤</button>
+          </div>
+
+          <div class="cemoji-picker" id="chatEmojiPicker"></div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- Modal nouvelle conversation -->
+  <div class="cnew-modal" id="chatNewModal">
+    <div class="cnew-box">
+      <div class="cnew-title">Nouvelle conversation</div>
+      <input class="cnew-inp" id="chatNewName" type="text" placeholder="Nom du contact / groupe…">
+      <input class="cnew-inp" id="chatNewSub" type="text" placeholder="Description (optionnel)">
+      <div class="cnew-acts">
+        <button class="cnew-cancel" onclick="chatCloseNewModal()">Annuler</button>
+        <button class="cnew-ok" onclick="chatCreateConv()">Créer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="clb" id="chatLB" onclick="chatCloseLB(event)">
+    <button class="clb-x" onclick="chatCloseLB()">✕</button>
+    <div id="chatLBContent"></div>
+    <button class="clb-dl" id="chatLBDl">⬇ Télécharger</button>
+  </div>
+
+  <!-- Input file caché -->
+  <input type="file" id="chatFileInput" style="display:none" onchange="chatFileChosen(this)">
 
 </div>
 
@@ -3159,6 +3342,451 @@ document.getElementById('resetBtn').onclick = async () => {
       ? 'Coach Admin'
       : ((session.user.user_metadata && session.user.user_metadata.full_name) || 'Mon compte');
   }
+  /* ═══════════════════════════════════════════════════
+     MESSAGERIE  ·  Stone Boxing Chat  (IIFE interne)
+  ═══════════════════════════════════════════════════ */
+  (function chatModule(){
+
+    const MAX   = 500*1024*1024;
+    const EMOJIS= ['😊','😂','❤️','🔥','💪','🥊','👊','👍','🙌','😎',
+                   '🤙','✅','⚡','🎯','🏆','💥','🤜','😤','👏','🙏',
+                   '😅','🤣','🫡','😈','🩸','👀','💯','🫶','🎬','🎶'];
+
+    /* ── state ── */
+    let _convs   = [];
+    let _cur     = null;   // conv active
+    let _msgs    = {};     // {id:[msg]}
+    let _me      = null;   // {id,email,name}
+    let _reply   = null;   // texte cité
+    let _rtsub   = null;
+    let _inited  = false;
+
+    /* ── DOM refs ── */
+    const $convList = ()=>document.getElementById('chatConvList');
+    const $msgs     = ()=>document.getElementById('chatMsgs');
+    const $ta       = ()=>document.getElementById('chatTA');
+    const $convView = ()=>document.getElementById('chatConvView');
+    const $placeholder = ()=>document.getElementById('chatPlaceholder');
+    const $sidebar  = ()=>document.getElementById('chatSidebar');
+    const $attMenu  = ()=>document.getElementById('chatAttachMenu');
+    const $emojiP   = ()=>document.getElementById('chatEmojiPicker');
+    const $lb       = ()=>document.getElementById('chatLB');
+    const $lbCont   = ()=>document.getElementById('chatLBContent');
+    const $lbDl     = ()=>document.getElementById('chatLBDl');
+    const $newModal = ()=>document.getElementById('chatNewModal');
+    const $replyPre = ()=>document.getElementById('chatReplyPre');
+    const $replyTxt = ()=>document.getElementById('chatReplyTxt');
+    const $fileIn   = ()=>document.getElementById('chatFileInput');
+
+    /* ── emoji picker init ── */
+    (function(){
+      const p = document.getElementById('chatEmojiPicker');
+      if(!p) return;
+      EMOJIS.forEach(e=>{
+        const s=document.createElement('span');
+        s.className='cep-e'; s.textContent=e;
+        s.onclick=()=>{ const t=$ta(); t.value+=e; t.focus(); };
+        p.appendChild(s);
+      });
+    })();
+
+    /* ── utils ── */
+    function ftime(d){
+      if(!d) return '';
+      const dt=new Date(d),now=new Date();
+      if(dt.toDateString()===now.toDateString())
+        return dt.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+      const diff=(now-dt)/864e5;
+      if(diff<7) return dt.toLocaleDateString('fr-FR',{weekday:'short'});
+      return dt.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
+    }
+    function fdate(d){
+      if(!d) return '';
+      return new Date(d).toLocaleDateString('fr-FR',
+        {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    }
+    function fsz(b){
+      if(!b) return '0o';
+      if(b<1024) return b+'o';
+      if(b<1048576) return (b/1024).toFixed(0)+'Ko';
+      if(b<1073741824) return (b/1048576).toFixed(1)+'Mo';
+      return (b/1073741824).toFixed(2)+'Go';
+    }
+    function ficon(mime,name){
+      const m=mime||'',n=name||'';
+      if(m.startsWith('video')||/\.(mp4|mov|avi|mkv|webm)$/i.test(n)) return {c:'video',i:'🎬'};
+      if(m.startsWith('image')) return {c:'image',i:'🖼️'};
+      if(m.startsWith('audio')) return {c:'audio',i:'🎵'};
+      if(/pdf|doc|xls|ppt|word|excel|powerpoint/i.test(m+n)) return {c:'doc',i:'📄'};
+      return {c:'other',i:'📎'};
+    }
+    function avl(name){ return (name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); }
+    function sameday(a,b){ return new Date(a).toDateString()===new Date(b).toDateString(); }
+    function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    /* ── init ── */
+    async function init(){
+      if(_inited) return;
+      _inited=true;
+      const {data:{session}}=await supabaseClient.auth.getSession();
+      if(!session){
+        $convList().innerHTML='<div style="padding:28px 18px;text-align:center;color:var(--text-dim);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;">Connecte-toi pour accéder aux messages</div>';
+        return;
+      }
+      _me={id:session.user.id,email:session.user.email,
+           name:session.user.user_metadata?.full_name||session.user.email.split('@')[0]};
+      await loadConvs();
+      rtSub();
+    }
+
+    /* ── charger conversations ── */
+    async function loadConvs(){
+      const {data,error}=await supabaseClient
+        .from('chat_conversations').select('*')
+        .order('last_message_at',{ascending:false});
+      if(error){ demoConvs(); return; }
+      _convs=data||[];
+      renderConvList();
+    }
+
+    function demoConvs(){
+      const now=Date.now();
+      _convs=[
+        {id:'d1',name:'Keldy',     type:'direct',last_message:'Super séance bro !',last_message_at:new Date(now-600000).toISOString(),unread:2},
+        {id:'d2',name:'Yaya',      type:'direct',last_message:'Vidéo sparring envoyée',last_message_at:new Date(now-3600000).toISOString(),unread:0},
+        {id:'d3',name:'Équipe Stone Boxing',type:'group',last_message:'Entraîn. demain 18h',last_message_at:new Date(now-86400000).toISOString(),unread:4},
+        {id:'d4',name:'Coach',     type:'direct',last_message:'Bon boulot sur les hooks',last_message_at:new Date(now-172800000).toISOString(),unread:0},
+      ];
+      _msgs['d1']=[
+        {id:'m1',from:'Keldy',fid:'other',text:'Salut ! T\'as regardé le sparring d\'hier ?',t:new Date(now-7200000).toISOString(),type:'text'},
+        {id:'m2',from:'Moi',fid:_me?.id,text:'Pas encore, envoie !',t:new Date(now-7100000).toISOString(),type:'text'},
+        {id:'m3',from:'Keldy',fid:'other',text:'',t:new Date(now-7000000).toISOString(),type:'file',file:{name:'sparring_20nov.mp4',size:127*1024*1024,mime:'video/mp4',url:null}},
+        {id:'m4',from:'Moi',fid:_me?.id,text:'Merci, je regarde ce soir',t:new Date(now-5400000).toISOString(),type:'text',read:true},
+        {id:'m5',from:'Keldy',fid:'other',text:'Super séance bro !',t:new Date(now-600000).toISOString(),type:'text'},
+      ];
+      _msgs['d3']=[
+        {id:'g1',from:'Coach',fid:'coach',text:'Rappel séance pattes d\'ours jeudi 19h 🥊',t:new Date(now-90000000).toISOString(),type:'text'},
+        {id:'g2',from:'Yaya', fid:'yaya', text:'Présent',t:new Date(now-89000000).toISOString(),type:'text'},
+        {id:'g3',from:'Keldy',fid:'keldy',text:'',t:new Date(now-88000000).toISOString(),type:'file',file:{name:'programme_semaine.pdf',size:384*1024,mime:'application/pdf',url:null}},
+        {id:'g4',from:'Coach',fid:'coach',text:'Entraîn. demain 18h',t:new Date(now-3600000).toISOString(),type:'text'},
+      ];
+      renderConvList();
+    }
+
+    /* ── render conv list ── */
+    function renderConvList(list){
+      list=list||_convs;
+      if(!list.length){
+        $convList().innerHTML='<div style="padding:28px 18px;text-align:center;color:var(--text-dim);font-size:11px;text-transform:uppercase;letter-spacing:1.5px;">Aucune conversation</div>';
+        return;
+      }
+      $convList().innerHTML=list.map(c=>{
+        const act=_cur&&_cur.id===c.id;
+        const grp=c.type==='group';
+        const u=c.unread||0;
+        return `<div class="cconv${act?' on':''}" onclick="chatSelectConv('${c.id}')">
+          <div class="cav">${avl(c.name)}${!grp?'<div class="cav-dot"></div>':''}</div>
+          <div class="cconv-body">
+            <div class="cconv-name">${esc(c.name)}${grp?'<span class="cgrp-tag">groupe</span>':''}</div>
+            <div class="cconv-prev">${esc(c.last_message||'—')}</div>
+          </div>
+          <div class="cconv-meta">
+            <span class="cconv-time">${ftime(c.last_message_at)}</span>
+            ${u>0?`<span class="cbadge">${u>99?'99+':u}</span>`:''}
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    /* ── sélectionner conv ── */
+    window.chatSelectConv=function(id){
+      _cur=_convs.find(c=>c.id===id);
+      if(!_cur) return;
+      _cur.unread=0;
+      renderConvList();
+      document.getElementById('chatHdrName').textContent=_cur.name;
+      document.getElementById('chatHdrAv').textContent=avl(_cur.name);
+      $placeholder().style.display='none';
+      const cv=$convView(); cv.style.display='flex';
+      if(window.innerWidth<=700) $sidebar().classList.add('slide-out');
+      loadMsgs(id);
+    };
+
+    async function loadMsgs(id){
+      if(_msgs[id]){ renderMsgs(_msgs[id]); return; }
+      const {data,error}=await supabaseClient
+        .from('chat_messages').select('*')
+        .eq('conversation_id',id).order('created_at',{ascending:true});
+      _msgs[id]=(error||!data)?[]:data.map(m=>({
+        id:m.id,from:m.sender_name||'?',fid:m.sender_id,
+        text:m.content||'',t:m.created_at,type:m.message_type||'text',
+        file:m.file_meta?(typeof m.file_meta==='string'?JSON.parse(m.file_meta):m.file_meta):null,
+        reply:m.reply_to||null,read:!!m.read_by
+      }));
+      renderMsgs(_msgs[id]);
+    }
+
+    /* ── render messages ── */
+    function renderMsgs(msgs){
+      if(!msgs||!msgs.length){
+        $msgs().innerHTML='<div style="text-align:center;color:var(--text-dim);font-size:12px;padding:32px;letter-spacing:1px;">Commencez la conversation…</div>';
+        return;
+      }
+      let html='',lastDate=null;
+      msgs.forEach(m=>{
+        if(!lastDate||!sameday(lastDate,m.t)){
+          lastDate=m.t;
+          html+=`<div class="cdate-sep">${fdate(m.t)}</div>`;
+        }
+        const me=m.fid===_me?.id;
+        const dir=me?'out':'in';
+        html+=`<div class="cmrow ${dir}" id="cm-${m.id}">`;
+        if(!me) html+=`<div class="cmrow-sender">${esc(m.from)}</div>`;
+
+        if(m.type==='upload'){
+          // progress bar
+          html+=`<div class="cup-row">
+            <div class="cfile-ico ${m.fi?.c||'other'}">${m.fi?.i||'📎'}</div>
+            <div class="cup-info">
+              <div class="cup-name">${esc(m.fi?.name||'Envoi…')}</div>
+              <div class="cup-bar"><div class="cup-fill" id="cpf-${m.id}" style="width:${m.pct||0}%"></div></div>
+            </div>
+            <div class="cup-pct" id="cpp-${m.id}">${m.pct||0}%</div>
+          </div>`;
+        } else if(m.type==='file'&&m.file){
+          const fi=ficon(m.file.mime,m.file.name);
+          const isMedia=fi.c==='video'||fi.c==='image';
+          const url=m.file.url;
+          const onClick=url?`chatOpenLB('${url}','${fi.c}','${esc(m.file.name)}')`:`alert('Mode démo — upload requis')`;
+          if(isMedia&&url){
+            html+=`<div class="cmedia" onclick="${onClick}">`;
+            html+=fi.c==='image'
+              ?`<img src="${url}" alt="${esc(m.file.name)}" loading="lazy">`
+              :`<video src="${url}" preload="metadata"></video><div class="cmedia-play">▶</div>`;
+            html+=`<span class="cmedia-sz">${fsz(m.file.size)}</span></div>`;
+          } else {
+            html+=`<div class="cfile-bub" onclick="${onClick}">
+              <div class="cfile-ico ${fi.c}">${fi.i}</div>
+              <div class="cfile-meta">
+                <div class="cfile-name">${esc(m.file.name||'Fichier')}</div>
+                <div class="cfile-sz">${fsz(m.file.size)} · ${fi.c.toUpperCase()}</div>
+              </div>
+              <div class="cfile-dl">⬇</div>
+            </div>`;
+          }
+        } else {
+          if(m.reply) html+=`<div class="cquote">↩ ${esc(m.reply)}</div>`;
+          html+=`<div class="cbubble">${esc(m.text).replace(/\n/g,'<br>')}</div>`;
+        }
+
+        const tick=me?`<span class="ctick${m.read?' read':''}">${m.read?'✓✓':'✓'}</span>`:'';
+        html+=`<div class="cmtime">${ftime(m.t)}${tick}</div>`;
+        html+=`</div>`;
+      });
+      $msgs().innerHTML=html;
+      requestAnimationFrame(()=>{ $msgs().scrollTop=$msgs().scrollHeight; });
+    }
+
+    /* ── envoyer texte ── */
+    window.chatSend=async function(){
+      if(!_cur) return;
+      const txt=($ta().value||'').trim();
+      if(!txt) return;
+      const msg={id:'loc-'+Date.now(),from:_me?.name||'Moi',fid:_me?.id||'me',
+                 text:txt,t:new Date().toISOString(),type:'text',
+                 reply:_reply?_reply.slice(0,80):null,read:false};
+      if(!_msgs[_cur.id]) _msgs[_cur.id]=[];
+      _msgs[_cur.id].push(msg);
+      $ta().value=''; chatTAResize($ta()); chatCancelReply();
+      renderMsgs(_msgs[_cur.id]);
+      const c=_convs.find(x=>x.id===_cur.id);
+      if(c){c.last_message=txt;c.last_message_at=msg.t;} renderConvList();
+      await supabaseClient.from('chat_messages').insert({
+        conversation_id:_cur.id,sender_id:_me?.id,sender_name:_me?.name,
+        content:txt,message_type:'text',reply_to:_reply||null
+      }).catch(()=>{});
+    };
+
+    /* ── choisir fichier ── */
+    window.chatPickFile=function(accept){
+      $attMenu().classList.remove('open');
+      const fi=$fileIn(); fi.accept=accept; fi.click();
+    };
+    window.chatFileChosen=async function(inp){
+      const file=inp.files?.[0];
+      if(!file||!_cur){inp.value='';return;}
+      if(file.size>MAX){
+        alert(`Fichier trop lourd.\nTaille max : ${fsz(MAX)}\nTon fichier : ${fsz(file.size)}`);
+        inp.value='';return;
+      }
+      const fi=ficon(file.type,file.name);
+      const uid='up-'+Date.now();
+      const upMsg={id:uid,from:_me?.name||'Moi',fid:_me?.id||'me',
+                   text:'',t:new Date().toISOString(),type:'upload',
+                   fi:{...fi,name:file.name,size:file.size},pct:0,read:false};
+      if(!_msgs[_cur.id]) _msgs[_cur.id]=[];
+      _msgs[_cur.id].push(upMsg);
+      renderMsgs(_msgs[_cur.id]);
+      inp.value='';
+
+      // progress simulée (Supabase JS SDK ne supporte pas onUploadProgress nativement)
+      let pct=0;
+      const iv=setInterval(()=>{
+        pct=Math.min(pct+Math.random()*7+2,91);
+        const f=document.getElementById('cpf-'+uid);
+        const p=document.getElementById('cpp-'+uid);
+        if(f) f.style.width=Math.round(pct)+'%';
+        if(p) p.textContent=Math.round(pct)+'%';
+      },280);
+
+      try{
+        const path=`chat/${_cur.id}/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`;
+        const {data:sd,error:se}=await supabaseClient.storage
+          .from('chat-files').upload(path,file,{upsert:false,contentType:file.type});
+        clearInterval(iv);
+        let url=null;
+        if(!se&&sd){
+          const {data:ud}=supabaseClient.storage.from('chat-files').getPublicUrl(path);
+          url=ud?.publicUrl||null;
+        }
+        // remplacer le message upload
+        const idx=_msgs[_cur.id].findIndex(m=>m.id===uid);
+        if(idx!==-1){
+          _msgs[_cur.id][idx]={id:uid,from:_me?.name||'Moi',fid:_me?.id||'me',
+            text:'',t:new Date().toISOString(),type:'file',
+            file:{name:file.name,size:file.size,mime:file.type,url},read:false};
+        }
+        await supabaseClient.from('chat_messages').insert({
+          conversation_id:_cur.id,sender_id:_me?.id,sender_name:_me?.name,
+          content:'',message_type:'file',
+          file_meta:JSON.stringify({name:file.name,size:file.size,mime:file.type,url})
+        }).catch(()=>{});
+        const c=_convs.find(x=>x.id===_cur.id);
+        if(c){c.last_message=file.name;c.last_message_at=new Date().toISOString();}
+      }catch(e){
+        clearInterval(iv);
+        console.error('Upload error',e);
+      }
+      renderMsgs(_msgs[_cur.id]); renderConvList();
+    };
+
+    /* ── realtime ── */
+    function rtSub(){
+      if(_rtsub) return;
+      _rtsub=supabaseClient.channel('sbc-chat')
+        .on('postgres_changes',{event:'INSERT',schema:'public',table:'chat_messages'},p=>{
+          const m=p.new;
+          if(!m||m.sender_id===_me?.id) return;
+          const cid=m.conversation_id;
+          const msg={id:m.id,from:m.sender_name||'?',fid:m.sender_id,
+                     text:m.content||'',t:m.created_at,type:m.message_type||'text',
+                     file:m.file_meta?(typeof m.file_meta==='string'?JSON.parse(m.file_meta):m.file_meta):null,
+                     reply:m.reply_to||null,read:false};
+          if(!_msgs[cid]) _msgs[cid]=[];
+          _msgs[cid].push(msg);
+          const c=_convs.find(x=>x.id===cid);
+          if(c){c.last_message=msg.text||(msg.file?.name||'');c.last_message_at=msg.t;
+                if(!_cur||_cur.id!==cid) c.unread=(c.unread||0)+1;}
+          renderConvList();
+          if(_cur&&_cur.id===cid) renderMsgs(_msgs[cid]);
+        }).subscribe();
+    }
+
+    /* ── nouvelle conv ── */
+    window.chatOpenNewModal =()=>$newModal().classList.add('open');
+    window.chatCloseNewModal=()=>$newModal().classList.remove('open');
+    window.chatCreateConv  =async function(){
+      const name=(document.getElementById('chatNewName').value||'').trim();
+      if(!name) return;
+      const type=name.toLowerCase().includes('équipe')||name.toLowerCase().includes('team')?'group':'direct';
+      const nc={id:'loc-'+Date.now(),name,type,last_message:'',
+                last_message_at:new Date().toISOString(),unread:0};
+      const {data,error}=await supabaseClient.from('chat_conversations')
+        .insert({name,type,created_by:_me?.id,last_message_at:nc.last_message_at})
+        .select().single();
+      if(!error&&data) nc.id=data.id;
+      _convs.unshift(nc);
+      renderConvList();
+      chatCloseNewModal();
+      document.getElementById('chatNewName').value='';
+      document.getElementById('chatNewSub').value='';
+      chatSelectConv(nc.id);
+    };
+
+    /* ── filter ── */
+    window.chatFilter=function(q){
+      renderConvList(q?_convs.filter(c=>c.name.toLowerCase().includes(q.toLowerCase())):_convs);
+    };
+
+    /* ── UI helpers ── */
+    window.chatTAResize=function(el){
+      el.style.height='auto';
+      el.style.height=Math.min(el.scrollHeight,110)+'px';
+    };
+    window.chatTAKey=function(e){
+      if(e.key==='Enter'&&!e.shiftKey&&!e.ctrlKey){e.preventDefault();chatSend();}
+    };
+    window.chatToggleAttach=function(){
+      $attMenu().classList.toggle('open');
+      $emojiP().classList.remove('open');
+    };
+    window.chatToggleEmoji=function(){
+      $emojiP().classList.toggle('open');
+      $attMenu().classList.remove('open');
+    };
+    window.chatCancelReply=function(){
+      _reply=null;
+      $replyPre().classList.remove('on');
+    };
+    window.chatBack=function(){
+      $sidebar().classList.remove('slide-out');
+      $convView().style.display='none';
+      $placeholder().style.display='flex';
+      _cur=null;
+    };
+    window.chatInfo=function(){
+      if(!_cur) return;
+      alert(`Conversation : ${_cur.name}\nType : ${_cur.type||'direct'}\nID : ${_cur.id}`);
+    };
+
+    /* ── lightbox ── */
+    window.chatOpenLB=function(url,type,name){
+      if(!url){alert('Fichier en mode démo — upload réel nécessaire.');return;}
+      $lbCont().innerHTML=type==='image'
+        ?`<img src="${url}" alt="${esc(name)}">`
+        :`<video src="${url}" controls autoplay></video>`;
+      $lbDl().onclick=()=>{const a=document.createElement('a');a.href=url;a.download=name||'fichier';a.click();};
+      $lb().classList.add('open');
+    };
+    window.chatCloseLB=function(e){
+      if(e&&e.target!==$lb()&&!e.target.closest('.clb-x')) return;
+      $lb().classList.remove('open');
+      $lbCont().innerHTML='';
+    };
+
+    /* ── hook sur showPanel ── */
+    const _origSP=window.showPanel;
+    window.showPanel=function(id,el){
+      _origSP(id,el);
+      if(id==='chat') init();
+    };
+
+    /* ── fermer menus au clic dehors ── */
+    document.addEventListener('click',function(e){
+      if(!e.target.closest('#chatAttBtn')&&!e.target.closest('#chatAttachMenu'))
+        $attMenu()&&$attMenu().classList.remove('open');
+      if(!e.target.closest('.cemoji-btn')&&!e.target.closest('#chatEmojiPicker'))
+        $emojiP()&&$emojiP().classList.remove('open');
+    });
+
+    /* ── seed _me si déjà connecté ── */
+    supabaseClient.auth.getSession().then(({data:{session}})=>{
+      if(session) _me={id:session.user.id,email:session.user.email,
+        name:session.user.user_metadata?.full_name||session.user.email.split('@')[0]};
+    });
+
+  })(); // end chatModule
+
 })();
 </script>
 
@@ -3472,26 +4100,6 @@ document.getElementById('resetBtn').onclick = async () => {
   color: var(--accent2);
   font-weight: 300;
 }
-.lib-toggle {
-  display: flex;
-  border-bottom: 1px solid var(--border);
-}
-.lib-toggle-btn {
-  flex: 1;
-  padding: 11px 10px;
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  color: var(--text-dim);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-bottom: -1px;
-}
-.lib-toggle-btn.active { color: var(--accent2); border-bottom-color: var(--accent2); }
 .open-lib-btn {
   width: 100%;
   background: rgba(184,154,90,0.08);
@@ -3834,10 +4442,6 @@ document.getElementById('resetBtn').onclick = async () => {
               <span class="lib-header-title">Bibliothèque</span>
               <button class="lib-close" onclick="closeExoLib()">×</button>
             </div>
-            <div class="lib-toggle">
-              <button class="lib-toggle-btn active" id="lib-tab-boxe" onclick="switchLibTab('boxe')">🥊 Boxe</button>
-              <button class="lib-toggle-btn" id="lib-tab-muscu" onclick="switchLibTab('muscu')">💪 Musculation</button>
-            </div>
             <input class="lib-search" id="lib-search" placeholder="Rechercher un exercice…" oninput="filterLib(this.value)">
             <div id="lib-list"></div>
           </div>
@@ -4006,80 +4610,6 @@ document.getElementById('resetBtn').onclick = async () => {
      BIBLIOTHÈQUE D'EXERCICES
   ══════════════════════════════ */
   const EXERCISE_LIB = [
-    // BOXE — TECHNIQUE
-    { cat: 'Boxe — Technique', icon: '🥊', name: 'Shadow boxing — jabs lents' },
-    { cat: 'Boxe — Technique', icon: '🥊', name: 'Combinaisons shadow boxing' },
-    { cat: 'Boxe — Technique', icon: '🥊', name: 'Shadow boxing technique' },
-    { cat: 'Boxe — Technique', icon: '🥊', name: 'Shadow boxing échauffement' },
-    { cat: 'Boxe — Technique', icon: '🥊', name: 'Défense + contre — shadow avancé' },
-    { cat: 'Boxe — Technique', icon: '🥊', name: 'Shadow boxing intensif full combo' },
-    { cat: 'Boxe — Technique', icon: '🥊', name: 'Intervalles shadow HIIT (3×3)' },
-    { cat: 'Boxe — Technique', icon: '🥊', name: 'Footwork + shadow boxing léger' },
-    { cat: 'Boxe — Technique', icon: '🥊', name: 'Uppercuts explosifs shadow' },
-    { cat: 'Boxe — Technique', icon: '🥊', name: 'Sparring technique (contact contrôlé)' },
-    // SAC
-    { cat: 'Sac lourd', icon: '🥊', name: 'Jabs sur sac — bras tendu, garde maintenue' },
-    { cat: 'Sac lourd', icon: '🥊', name: 'Jab + Cross sur sac — coordination' },
-    { cat: 'Sac lourd', icon: '🥊', name: 'Combos 1-2-3 sur sac' },
-    { cat: 'Sac lourd', icon: '🥊', name: 'Uppercuts sur sac — cible basse' },
-    { cat: 'Sac lourd', icon: '🥊', name: 'Rounds sac format combat (3 min / 1 min repos)' },
-    { cat: 'Sac lourd', icon: '🥊', name: 'Sac lourd — rounds format compétition' },
-    { cat: 'Sac lourd', icon: '🥊', name: 'Frappes puissance max sur sac — 5 coups / pause' },
-    { cat: 'Sac lourd', icon: '🥊', name: 'Rafales de vitesse sur sac — max reps en 10 sec' },
-    { cat: 'Sac lourd', icon: '🥊', name: 'Sac — Tabata 20 sec max / 10 sec repos' },
-    { cat: 'Sac lourd', icon: '🥊', name: 'Combos libres + déplacements autour du sac' },
-    { cat: 'Sac lourd', icon: '🥊', name: 'Rounds libres sac — récupération active' },
-    { cat: 'Sac lourd', icon: '🥊', name: 'Travail corps : hooks + uppercuts bas' },
-    // PATTES D'OURS
-    { cat: 'Pattes d\'ours', icon: '🐾', name: 'Pattes d\'ours avec coach — combos annoncés' },
-    { cat: 'Pattes d\'ours', icon: '🐾', name: 'Pattes d\'ours avec coach — combos libres' },
-    // CORDE
-    { cat: 'Corde à sauter', icon: '🪢', name: 'Corde à sauter — rythme libre' },
-    { cat: 'Corde à sauter', icon: '🪢', name: 'Corde à sauter — doubles pieds' },
-    { cat: 'Corde à sauter', icon: '🪢', name: 'Corde à sauter — alternance pieds' },
-    { cat: 'Corde à sauter', icon: '🪢', name: 'Corde à sauter — 10 min non-stop' },
-    { cat: 'Corde à sauter', icon: '🪢', name: 'Corde à sauter imaginaire' },
-    { cat: 'Corde à sauter', icon: '🪢', name: 'Corde — sprint 30 sec / repos 15 sec' },
-    { cat: 'Corde à sauter', icon: '🪢', name: 'Corde finisher — double Dutch' },
-    // RENFORCEMENT
-    { cat: 'Renforcement musculaire', icon: '💪', name: 'Pompes classiques' },
-    { cat: 'Renforcement musculaire', icon: '💪', name: 'Pompes diamant' },
-    { cat: 'Renforcement musculaire', icon: '💪', name: 'Pompes avec rotation' },
-    { cat: 'Renforcement musculaire', icon: '💪', name: 'Pompes explosives (clap)' },
-    { cat: 'Renforcement musculaire', icon: '💪', name: 'Pompes entre les rounds' },
-    { cat: 'Renforcement musculaire', icon: '💪', name: 'Gainage boxing (punch en planche)' },
-    { cat: 'Renforcement musculaire', icon: '💪', name: 'Planche — gainage statique' },
-    { cat: 'Renforcement musculaire', icon: '💪', name: 'Planche latérale' },
-    { cat: 'Renforcement musculaire', icon: '💪', name: 'Dips triceps' },
-    { cat: 'Renforcement musculaire', icon: '💪', name: 'Tractions' },
-    { cat: 'Renforcement musculaire', icon: '💪', name: 'Abdos — crunchs' },
-    { cat: 'Renforcement musculaire', icon: '💪', name: 'Abdos — relevés de jambes' },
-    { cat: 'Renforcement musculaire', icon: '💪', name: 'Abdos — bicycle crunch' },
-    { cat: 'Renforcement musculaire', icon: '💪', name: 'Abdos — Russian twist' },
-    // JAMBES / CARDIO
-    { cat: 'Cardio & Jambes', icon: '🦵', name: 'Squats explosifs' },
-    { cat: 'Cardio & Jambes', icon: '🦵', name: 'Squats jump avec garde' },
-    { cat: 'Cardio & Jambes', icon: '🦵', name: 'Fentes avec pivot' },
-    { cat: 'Cardio & Jambes', icon: '🦵', name: 'Fentes marchées' },
-    { cat: 'Cardio & Jambes', icon: '🏃', name: 'Mountain climbers' },
-    { cat: 'Cardio & Jambes', icon: '🏃', name: 'Burpees boxing' },
-    { cat: 'Cardio & Jambes', icon: '🏃', name: 'Burpees boxing (pompe + jab-cross debout)' },
-    { cat: 'Cardio & Jambes', icon: '🏃', name: 'Sprint stationnaire 100%' },
-    { cat: 'Cardio & Jambes', icon: '🔥', name: 'Échauffement — sauts sur place' },
-    { cat: 'Cardio & Jambes', icon: '🔥', name: 'Jumping jacks' },
-    { cat: 'Cardio & Jambes', icon: '🔥', name: 'High knees — genoux hauts' },
-    { cat: 'Cardio & Jambes', icon: '🔥', name: 'Box jumps' },
-    // RÉCUPÉRATION
-    { cat: 'Récupération & Étirements', icon: '🧘', name: 'Étirements & récupération' },
-    { cat: 'Récupération & Étirements', icon: '🧘', name: 'Étirements complets' },
-    { cat: 'Récupération & Étirements', icon: '🧘', name: 'Étirements épaules et poignets' },
-    { cat: 'Récupération & Étirements', icon: '🧘', name: 'Étirements & respiration' },
-    { cat: 'Récupération & Étirements', icon: '🧘', name: 'Récupération active' },
-    { cat: 'Récupération & Étirements', icon: '🧘', name: 'Récupération + debriefing coach' },
-    { cat: 'Récupération & Étirements', icon: '🧘', name: 'Foam roller — récupération' },
-  ];
-
-  const EXERCISE_LIB_MUSCU = [
     // PECTORAUX
     { cat: 'Pectoraux', icon: '💪', name: 'Développé couché — barre' },
     { cat: 'Pectoraux', icon: '💪', name: 'Développé couché — haltères' },
@@ -4118,7 +4648,7 @@ document.getElementById('resetBtn').onclick = async () => {
     { cat: 'Épaules', icon: '🔱', name: 'Shrugs — barre ou haltères' },
     { cat: 'Épaules', icon: '🔱', name: 'Arnold press — haltères' },
     { cat: 'Épaules', icon: '🔱', name: 'Upright row — barre ou câble' },
-    // BICEPS
+    // BRAS — BICEPS
     { cat: 'Biceps', icon: '💪', name: 'Curl barre — prise supination' },
     { cat: 'Biceps', icon: '💪', name: 'Curl haltères alternés' },
     { cat: 'Biceps', icon: '💪', name: 'Curl marteau — haltères' },
@@ -4126,7 +4656,7 @@ document.getElementById('resetBtn').onclick = async () => {
     { cat: 'Biceps', icon: '💪', name: 'Curl concentration — haltère' },
     { cat: 'Biceps', icon: '💪', name: 'Curl câble — barre droite ou EZ' },
     { cat: 'Biceps', icon: '💪', name: 'Curl pupitre — barre EZ' },
-    // TRICEPS
+    // BRAS — TRICEPS
     { cat: 'Triceps', icon: '💪', name: 'Extensions triceps poulie haute' },
     { cat: 'Triceps', icon: '💪', name: 'Extensions triceps — corde poulie' },
     { cat: 'Triceps', icon: '💪', name: 'Extensions couché barre (skull crushers)' },
@@ -4134,7 +4664,7 @@ document.getElementById('resetBtn').onclick = async () => {
     { cat: 'Triceps', icon: '💪', name: 'Dips triceps — banc ou barres parallèles' },
     { cat: 'Triceps', icon: '💪', name: 'Close grip bench press' },
     { cat: 'Triceps', icon: '💪', name: 'Kick-back triceps — haltère' },
-    // QUADRICEPS
+    // JAMBES — QUADRICEPS
     { cat: 'Quadriceps', icon: '🦵', name: 'Squat barre — haut du dos' },
     { cat: 'Quadriceps', icon: '🦵', name: 'Squat barre — bas du dos (low bar)' },
     { cat: 'Quadriceps', icon: '🦵', name: 'Squat haltères (goblet squat)' },
@@ -4145,7 +4675,7 @@ document.getElementById('resetBtn').onclick = async () => {
     { cat: 'Quadriceps', icon: '🦵', name: 'Fentes avant — barre ou haltères' },
     { cat: 'Quadriceps', icon: '🦵', name: 'Step-up — banc ou box avec haltères' },
     { cat: 'Quadriceps', icon: '🦵', name: 'Hack squat — machine' },
-    // ISCHIO-FESSIERS
+    // JAMBES — ISCHIO / FESSIERS
     { cat: 'Ischio-fessiers', icon: '🦵', name: 'Leg curl couché — machine' },
     { cat: 'Ischio-fessiers', icon: '🦵', name: 'Leg curl assis — machine' },
     { cat: 'Ischio-fessiers', icon: '🦵', name: 'Romanian deadlift — haltères' },
@@ -4171,7 +4701,7 @@ document.getElementById('resetBtn').onclick = async () => {
     { cat: 'Abdominaux & Gainage', icon: '🔥', name: 'Cable crunch — poulie haute' },
     { cat: 'Abdominaux & Gainage', icon: '🔥', name: 'Hanging knee raise — barre suspendue' },
     { cat: 'Abdominaux & Gainage', icon: '🔥', name: 'Pallof press — câble anti-rotation' },
-    // FORCE & MOUVEMENTS COMPOSÉS
+    // MOUVEMENTS COMPOSÉS & FORCE
     { cat: 'Force & Mouvements composés', icon: '⚡', name: 'Soulevé de terre — barre sumo' },
     { cat: 'Force & Mouvements composés', icon: '⚡', name: 'Arraché — haltère ou barre' },
     { cat: 'Force & Mouvements composés', icon: '⚡', name: 'Épaulé-jeté — barre' },
@@ -4192,21 +4722,10 @@ document.getElementById('resetBtn').onclick = async () => {
     { cat: 'Récupération & Mobilité', icon: '🧘', name: 'Récupération active — marche légère' },
   ];
 
-  let _libTab = 'boxe';
-
-  window.switchLibTab = function(tab){
-    _libTab = tab;
-    document.getElementById('lib-tab-boxe').classList.toggle('active', tab === 'boxe');
-    document.getElementById('lib-tab-muscu').classList.toggle('active', tab === 'muscu');
-    document.getElementById('lib-search').value = '';
-    renderLib('');
-  };
-
   function renderLib(filter=''){
     const list = document.getElementById('lib-list');
     const q = filter.toLowerCase();
-    const source = _libTab === 'muscu' ? EXERCISE_LIB_MUSCU : EXERCISE_LIB;
-    const filtered = q ? source.filter(e => e.name.toLowerCase().includes(q)) : source;
+    const filtered = q ? EXERCISE_LIB.filter(e => e.name.toLowerCase().includes(q)) : EXERCISE_LIB;
     const cats = [...new Set(filtered.map(e=>e.cat))];
     list.innerHTML = cats.map(cat=>`
       <div class="lib-category">${cat}</div>
@@ -4220,9 +4739,6 @@ document.getElementById('resetBtn').onclick = async () => {
   }
 
   window.openExoLib = function(){
-    _libTab = 'boxe';
-    document.getElementById('lib-tab-boxe').classList.add('active');
-    document.getElementById('lib-tab-muscu').classList.remove('active');
     document.getElementById('lib-search').value = '';
     renderLib();
     document.getElementById('lib-modal').classList.add('open');
@@ -4283,6 +4799,72 @@ document.getElementById('resetBtn').onclick = async () => {
     document.getElementById('compose-subject').focus();
   };
 
+  /* BRIDGE CHAT ⇄ COACH
+     Quand le coach envoie depuis Coach Admin, on copie aussi l'envoi
+     dans la messagerie instantanée pour que l'élève le voie dans "Messages". */
+  async function findOrCreateCoachChat(student){
+    const label = 'Coach ↔ ' + (student.name || 'Élève');
+    const now = new Date().toISOString();
+
+    let { data: existing } = await supabaseClient
+      .from('chat_conversations')
+      .select('*')
+      .eq('name', label)
+      .maybeSingle();
+
+    if(existing) return existing;
+
+    const { data, error } = await supabaseClient
+      .from('chat_conversations')
+      .insert({
+        name: label,
+        type: 'direct',
+        created_by: student.coach_id || null,
+        last_message: '',
+        last_message_at: now,
+        unread: 0
+      })
+      .select()
+      .single();
+
+    if(error) throw error;
+    return data;
+  }
+
+  function coachPayloadToChatText(row){
+    if(row.type === 'programme'){
+      const exos = (row.body && row.body.exercises ? row.body.exercises : [])
+        .map(e => `• ${e.name}${e.sets || e.reps ? ' — ' + [e.sets, e.reps].filter(Boolean).join(' × ') : ''}${e.rest ? ' / repos ' + e.rest : ''}`)
+        .join('\n');
+      const note = row.body && row.body.note ? `\n\n${row.body.note}` : '';
+      return `🥊 ${row.subject}\n${exos}${note}`.trim();
+    }
+    return `💬 ${row.subject}\n${row.body && row.body.text ? row.body.text : ''}`.trim();
+  }
+
+  async function mirrorCoachRowsToChat(rows){
+    for(const row of rows){
+      const targets = row.broadcast
+        ? _members.map(m => ({ id:m.id, name:m.full_name || m.email || 'Élève', coach_id:row.coach_id }))
+        : [{ id:row.recipient_id, name:(_members.find(m => m.id === row.recipient_id)?.full_name) || 'Élève', coach_id:row.coach_id }];
+
+      for(const target of targets){
+        const conv = await findOrCreateCoachChat(target);
+        const text = coachPayloadToChatText(row);
+        await supabaseClient.from('chat_messages').insert({
+          conversation_id: conv.id,
+          sender_id: row.coach_id,
+          sender_name: 'Coach',
+          content: text,
+          message_type: 'text'
+        });
+        await supabaseClient.from('chat_conversations')
+          .update({ last_message: text.slice(0, 120), last_message_at: new Date().toISOString() })
+          .eq('id', conv.id);
+      }
+    }
+  }
+
   /* SEND */
   window.sendCoachMessage = async function(){
     const st = document.getElementById('compose-status');
@@ -4311,13 +4893,17 @@ document.getElementById('resetBtn').onclick = async () => {
       : _recipients.map(r=>({ coach_id: session.user.id, recipient_id: r.id, broadcast: false, subject, type: _composeType, body }));
 
     const { error } = await supabaseClient.from('coach_messages').insert(rows);
+    if(!error){
+      try { await mirrorCoachRowsToChat(rows); }
+      catch(e){ console.warn('Bridge coach→chat:', e); }
+    }
     btn.textContent = 'Envoyer'; btn.disabled = false;
     if(error){
       st.className = 'coach-status err';
       st.textContent = error.message;
     } else {
       st.className = 'coach-status ok';
-      st.textContent = '✓ Envoyé avec succès.';
+      st.textContent = '✓ Envoyé aussi dans Messages.';
       // reset form
       document.getElementById('compose-subject').value  = '';
       document.getElementById('compose-message').value  = '';
@@ -4436,6 +5022,113 @@ document.getElementById('resetBtn').onclick = async () => {
     }
   });
 
+})();
+</script>
+
+
+<!-- STONE V2 — Apparence, profil, dock musique/timer -->
+<div class="sb-overlay" id="sbOverlay" onclick="sbCloseAll()"></div>
+<aside class="sb-drawer" id="sbAppearanceDrawer" aria-hidden="true">
+  <div class="sb-drawer-head">
+    <div><div class="sb-kicker">Stone V2</div><div class="sb-title">Apparence</div></div>
+    <button class="sb-x" onclick="sbCloseAll()">×</button>
+  </div>
+  <div class="sb-setting-card"><h4>Mode</h4><div class="sb-choice-row">
+    <button class="sb-choice" id="sbModeDark" onclick="sbSetMode('dark')">Sombre</button>
+    <button class="sb-choice" id="sbModeLight" onclick="sbSetMode('light')">Clair</button>
+  </div></div>
+  <div class="sb-setting-card"><h4>Interface</h4><div class="sb-choice-row">
+    <button class="sb-choice" id="sbDensityStandard" onclick="sbSetDensity('standard')">Standard</button>
+    <button class="sb-choice" id="sbDensityCompact" onclick="sbSetDensity('compact')">Compact</button>
+  </div></div>
+  <div class="sb-setting-card"><h4>Messagerie</h4><div class="sb-choice-row">
+    <button class="sb-choice" id="sbBubblesPremium" onclick="sbSetBubbles('premium')">Premium</button>
+    <button class="sb-choice" id="sbBubblesClassic" onclick="sbSetBubbles('classic')">Classique</button>
+  </div></div>
+  <div class="sb-setting-card"><h4>Dock bas écran</h4><div class="sb-choice-row">
+    <button class="sb-choice" id="sbMusicOn" onclick="sbSetMusic(true)">Musique ON</button>
+    <button class="sb-choice" id="sbMusicOff" onclick="sbSetMusic(false)">Musique OFF</button>
+  </div></div>
+  <div class="sb-setting-card"><h4>Confort</h4><div class="sb-choice-row">
+    <button class="sb-choice" id="sbMotionOn" onclick="sbSetMotion(false)">Animations</button>
+    <button class="sb-choice" id="sbMotionOff" onclick="sbSetMotion(true)">Réduire</button>
+  </div></div>
+</aside>
+
+<div class="sb-modal" id="sbProfileModal" onclick="if(event.target===this)sbCloseAll()">
+  <div class="sb-profile-card">
+    <div class="sb-profile-hero">
+      <button class="sb-profile-close" onclick="sbCloseAll()">×</button>
+      <div class="sb-avatar-xl" id="sbAvatarPreview">YM</div>
+      <div class="sb-profile-name" id="sbProfileNamePreview">Yannis Medjbar</div>
+      <div class="sb-profile-role" id="sbProfileRolePreview">Coach principal · Stone Boxing</div>
+    </div>
+    <div class="sb-profile-body">
+      <div class="sb-field"><label>Photo de profil</label><input type="file" accept="image/*" onchange="sbProfilePhoto(this)"></div>
+      <div class="sb-field"><label>Nom affiché</label><input id="sbProfileName" value="Yannis Medjbar" oninput="sbPreviewProfile()"></div>
+      <div class="sb-field"><label>Bio courte</label><textarea id="sbProfileBio" placeholder="Ex : Travail technique, cardio, progression régulière…"></textarea></div>
+      <div class="sb-field"><label>Objectif</label><input id="sbProfileGoal" placeholder="Ex : Combat amateur, remise en forme, compétition…"></div>
+      <div class="sb-field"><label>Disponibilités</label><input id="sbProfileAvail" placeholder="Ex : Lundi, mercredi, vendredi soir"></div>
+      <div class="sb-field"><label>Niveau / groupe (coach modifiable)</label><select id="sbProfileLevel"><option>Débutant</option><option selected>Intermédiaire</option><option>Compétition</option><option>Coach</option></select></div>
+      <div class="sb-profile-actions"><button class="sb-btn" onclick="sbResetProfilePhoto()">Avatar</button><button class="sb-btn primary" onclick="sbSaveProfile()">Enregistrer</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="sb-dock" id="sbDock">
+  <div class="sb-music" onclick="sbOpenMusicInfo()">
+    <div class="sb-music-icon">♪</div>
+    <div class="sb-track"><div class="sb-track-name" id="sbTrackName">Playlist Stone Boxing</div><div class="sb-track-sub">Connecteur Spotify/Deezer prêt</div></div>
+  </div>
+  <button class="sb-play" id="sbPlayBtn" onclick="sbTogglePlay(event)">▶</button>
+  <button class="sb-timer-pill" onclick="showPanel('timer', document.querySelector('[onclick*=\'timer\']'))"><small>Timer</small><span id="sbMiniTimer">00:00</span></button>
+</div>
+
+
+<script id="stone-v2-premium-js">
+(function(){
+  const store='stone_v2_prefs';
+  const profStore='stone_v2_profile';
+  function prefs(){try{return JSON.parse(localStorage.getItem(store)||'{}')}catch(e){return {}}}
+  function savePrefs(p){localStorage.setItem(store,JSON.stringify(p));applyPrefs();}
+  window.sbOpenAppearance=function(){document.getElementById('sbOverlay')?.classList.add('open');document.getElementById('sbAppearanceDrawer')?.classList.add('open')}
+  window.sbCloseAll=function(){document.getElementById('sbOverlay')?.classList.remove('open');document.getElementById('sbAppearanceDrawer')?.classList.remove('open');document.getElementById('sbProfileModal')?.classList.remove('open')}
+  window.sbSetMode=function(m){const p=prefs();p.mode=m;localStorage.setItem('stoneTheme',m==='light'?'light':'dark');savePrefs(p); if(typeof initTheme==='function') initTheme();}
+  window.sbSetDensity=function(v){const p=prefs();p.density=v;savePrefs(p)}
+  window.sbSetBubbles=function(v){const p=prefs();p.bubbles=v;savePrefs(p)}
+  window.sbSetMusic=function(v){const p=prefs();p.music=!!v;savePrefs(p)}
+  window.sbSetMotion=function(v){const p=prefs();p.reduceMotion=!!v;savePrefs(p)}
+  function on(id,yes){const el=document.getElementById(id); if(el) el.classList.toggle('on',!!yes)}
+  function applyPrefs(){
+    const p=prefs();
+    document.body.classList.toggle('sb-compact',p.density==='compact');
+    document.body.classList.toggle('sb-classic-bubbles',p.bubbles==='classic');
+    document.body.classList.toggle('sb-reduce-motion',!!p.reduceMotion);
+    const dock=document.getElementById('sbDock'); if(dock) dock.classList.toggle('hide-music',p.music===false);
+    on('sbModeDark',p.mode!=='light');on('sbModeLight',p.mode==='light');
+    on('sbDensityStandard',p.density!=='compact');on('sbDensityCompact',p.density==='compact');
+    on('sbBubblesPremium',p.bubbles!=='classic');on('sbBubblesClassic',p.bubbles==='classic');
+    on('sbMusicOn',p.music!==false);on('sbMusicOff',p.music===false);on('sbMotionOn',!p.reduceMotion);on('sbMotionOff',!!p.reduceMotion);
+  }
+  function initials(n){return (n||'Stone Boxing').split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase()||'SB'}
+  function profile(){try{return JSON.parse(localStorage.getItem(profStore)||'{}')}catch(e){return {}}}
+  function renderProfile(){const p=profile();const name=p.name||'Yannis Medjbar';const mini=document.getElementById('sbProfileMini');if(mini) mini.textContent=initials(name);const av=document.getElementById('sbAvatarPreview'); if(av){av.innerHTML=p.photo?`<img src="${p.photo}" alt="profil">`:initials(name)}; const np=document.getElementById('sbProfileNamePreview'); if(np) np.textContent=name; const rp=document.getElementById('sbProfileRolePreview'); if(rp) rp.textContent=(p.level||'Intermédiaire')+' · Stone Boxing'; const n=document.getElementById('sbProfileName'); if(n) n.value=name; const b=document.getElementById('sbProfileBio'); if(b) b.value=p.bio||''; const g=document.getElementById('sbProfileGoal'); if(g) g.value=p.goal||''; const a=document.getElementById('sbProfileAvail'); if(a) a.value=p.avail||''; const l=document.getElementById('sbProfileLevel'); if(l) l.value=p.level||'Intermédiaire'}
+  window.sbOpenProfile=function(){renderProfile();document.getElementById('sbProfileModal')?.classList.add('open')}
+  window.sbOpenProfileFromChat=function(){
+    const name=document.getElementById('chatHdrName')?.textContent?.trim();
+    if(name && name!=='—'){ const p=profile(); p.name=name; localStorage.setItem(profStore,JSON.stringify(p)); }
+    sbOpenProfile();
+  }
+  window.sbPreviewProfile=function(){const name=document.getElementById('sbProfileName')?.value||'Stone Boxing';document.getElementById('sbProfileNamePreview').textContent=name;document.getElementById('sbAvatarPreview').textContent=initials(name)}
+  window.sbProfilePhoto=function(inp){const f=inp.files&&inp.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{const p=profile();p.photo=r.result;localStorage.setItem(profStore,JSON.stringify(p));renderProfile()}; r.readAsDataURL(f)}
+  window.sbResetProfilePhoto=function(){const p=profile();delete p.photo;localStorage.setItem(profStore,JSON.stringify(p));renderProfile()}
+  window.sbSaveProfile=function(){const p=profile();p.name=document.getElementById('sbProfileName')?.value||p.name||'Yannis Medjbar';p.bio=document.getElementById('sbProfileBio')?.value||'';p.goal=document.getElementById('sbProfileGoal')?.value||'';p.avail=document.getElementById('sbProfileAvail')?.value||'';p.level=document.getElementById('sbProfileLevel')?.value||'Intermédiaire';localStorage.setItem(profStore,JSON.stringify(p));renderProfile();sbCloseAll();alert('Profil enregistré sur cet appareil. Connexion Supabase profil à faire en étape suivante.')}
+  let playing=false; window.sbTogglePlay=function(e){e&&e.stopPropagation();playing=!playing;const b=document.getElementById('sbPlayBtn'); if(b) b.textContent=playing?'⏸':'▶'}
+  window.sbOpenMusicInfo=function(){alert('Lecteur musique préparé. Étape suivante : connecter Spotify/Deezer ou ajouter les playlists officielles du club.')}
+  // Timer discret: récupère l'affichage existant si présent
+  setInterval(()=>{const out=document.getElementById('sbMiniTimer'); if(!out) return; const candidates=['t-active-time','timerTime','tTime','timer-time']; let val=''; for(const id of candidates){const el=document.getElementById(id); if(el&&el.textContent.trim()){val=el.textContent.trim();break}} const big=document.querySelector('.ta-big-number,.timer-time'); if(!val&&big) val=big.textContent.trim(); out.textContent=(val&&/^\d/.test(val))?val:'00:00';},500);
+  document.addEventListener('DOMContentLoaded',()=>{applyPrefs();renderProfile();setTimeout(applyPrefs,300)});
+  if(document.readyState!=='loading'){applyPrefs();renderProfile();}
 })();
 </script>
 
