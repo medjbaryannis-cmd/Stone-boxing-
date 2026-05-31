@@ -1269,6 +1269,12 @@
           font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
           padding:9px 20px;cursor:pointer;border-radius:3px;}
 
+
+/* Correctif V2.1 : dock musique au-dessus du chrono + sortie messages */
+.sb-dock{max-width:720px;margin:0 auto;}
+#floating-timer{z-index:1000;}
+.csb-head .chact{width:32px;height:32px;border-radius:50%;}
+@media(max-width:420px){.sb-dock{padding:7px 8px;gap:7px}.sb-music-icon{width:26px;height:26px}.sb-track-name{font-size:11px}.sb-track-sub{display:none}.sb-play{width:30px;height:30px}.sb-timer-pill{min-width:76px;padding:0 9px}}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1639,8 +1645,8 @@ body.sb-classic-bubbles .cmrow.out .cbubble,body.sb-classic-bubbles .cmrow.in .c
 /* Profile modal */
 .sb-modal{position:fixed;inset:0;z-index:1400;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:18px}.sb-modal.open{display:flex}.sb-profile-card{width:min(430px,94vw);background:linear-gradient(180deg,var(--bg-card),var(--bg-mid));border:1px solid rgba(184,154,90,.18);border-radius:34px 24px 34px 16px;box-shadow:var(--sb-shadow-soft);overflow:hidden}.sb-profile-hero{padding:28px 24px 22px;background:radial-gradient(circle at top left,rgba(192,97,58,.18),transparent 42%),linear-gradient(135deg,var(--bg-card),var(--bg));position:relative}.sb-profile-close{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.12);border:1px solid rgba(255,255,255,.08);color:var(--text-muted);width:34px;height:34px;border-radius:999px}.sb-avatar-xl{width:86px;height:86px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:31px;color:var(--accent2);border:1px solid rgba(184,154,90,.25);background:radial-gradient(circle at 35% 25%,rgba(184,154,90,.22),rgba(74,111,165,.12));overflow:hidden;margin-bottom:15px}.sb-avatar-xl img{width:100%;height:100%;object-fit:cover}.sb-profile-name{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:30px;font-weight:700;color:var(--text)}.sb-profile-role{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent2);margin-top:4px}.sb-profile-body{padding:18px 22px 22px}.sb-field{margin-bottom:13px}.sb-field label{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px}.sb-field input,.sb-field textarea,.sb-field select{width:100%;border:1px solid rgba(184,154,90,.12);background:var(--auth-input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;padding:12px 13px;border-radius:18px;outline:none}.sb-field textarea{min-height:78px;resize:vertical}.sb-profile-actions{display:flex;gap:9px}.sb-btn{flex:1;border:1px solid var(--border);background:var(--bg-item);color:var(--text-muted);padding:13px 12px;border-radius:999px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700}.sb-btn.primary{background:var(--accent);border-color:var(--accent);color:#F5F2EC}
 /* Bottom dock: musique + timer discret */
-.sb-dock{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:900;display:flex;align-items:center;gap:10px;padding:9px 10px;background:rgba(14,17,23,.86);border:1px solid rgba(184,154,90,.16);border-radius:999px;box-shadow:0 16px 46px rgba(0,0,0,.32);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}body.light-mode .sb-dock{background:rgba(237,233,224,.88)}.sb-music{flex:1;min-width:0;display:flex;align-items:center;gap:9px}.sb-music-icon{width:30px;height:30px;border-radius:50%;background:rgba(184,154,90,.12);color:var(--accent2);display:flex;align-items:center;justify-content:center;font-size:13px}.sb-track{min-width:0}.sb-track-name{font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sb-track-sub{font-size:9px;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase}.sb-play,.sb-timer-pill{height:32px;border-radius:999px;border:1px solid rgba(184,154,90,.16);background:var(--bg-item);color:var(--text);display:flex;align-items:center;justify-content:center}.sb-play{width:32px}.sb-timer-pill{padding:0 12px;gap:7px;font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--accent2);min-width:90px}.sb-timer-pill small{font-family:'DM Sans',sans-serif;font-size:8px;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase}.sb-dock.hide-music .sb-music{display:none}
-@media(max-width:700px){#panel-chat{height:calc(100vh - 150px)!important}.csb{border-right:none}.cmain{position:relative}.sb-dock{left:8px;right:8px}.sb-track-name{max-width:38vw}.cmrow{max-width:82%}}
+.sb-dock{position:fixed;left:12px;right:12px;bottom:calc(58px + env(safe-area-inset-bottom,0px));z-index:950;display:flex;align-items:center;gap:10px;padding:9px 10px;background:rgba(14,17,23,.86);border:1px solid rgba(184,154,90,.16);border-radius:999px;box-shadow:0 16px 46px rgba(0,0,0,.32);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}body.light-mode .sb-dock{background:rgba(237,233,224,.88)}.sb-music{flex:1;min-width:0;display:flex;align-items:center;gap:9px}.sb-music-icon{width:30px;height:30px;border-radius:50%;background:rgba(184,154,90,.12);color:var(--accent2);display:flex;align-items:center;justify-content:center;font-size:13px}.sb-track{min-width:0}.sb-track-name{font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sb-track-sub{font-size:9px;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase}.sb-play,.sb-timer-pill{height:32px;border-radius:999px;border:1px solid rgba(184,154,90,.16);background:var(--bg-item);color:var(--text);display:flex;align-items:center;justify-content:center}.sb-play{width:32px}.sb-timer-pill{padding:0 12px;gap:7px;font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--accent2);min-width:90px}.sb-timer-pill small{font-family:'DM Sans',sans-serif;font-size:8px;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase}.sb-dock.hide-music .sb-music{display:none}
+@media(max-width:700px){#panel-chat{height:calc(100vh - 150px)!important}.csb{border-right:none}.cmain{position:relative}.sb-dock{left:8px;right:8px;bottom:calc(58px + env(safe-area-inset-bottom,0px));}.sb-track-name{max-width:38vw}.cmrow{max-width:82%}}
 </style>
 
 </head>
@@ -2559,7 +2565,7 @@ body.sb-classic-bubbles .cmrow.out .cbubble,body.sb-classic-bubbles .cmrow.in .c
     <div class="csb" id="chatSidebar">
       <div class="csb-head">
         <span class="csb-title">Messages</span>
-        <button class="csb-new" title="Nouvelle conversation" onclick="chatOpenNewModal()">＋</button>
+        <div style="display:flex;gap:8px;align-items:center"><button class="csb-new" title="Nouvelle conversation" onclick="chatOpenNewModal()">＋</button><button class="chact" title="Quitter les messages" onclick="showPanel('workout', document.querySelector('.tabs .tab'))">×</button></div>
       </div>
       <div class="csb-search">
         <span class="csb-search-ico">🔍</span>
@@ -2592,7 +2598,7 @@ body.sb-classic-bubbles .cmrow.out .cbubble,body.sb-classic-bubbles .cmrow.in .c
           </div>
           <div class="cmain-hactions">
             <button class="chact" title="Appel vidéo" onclick="alert('Bientôt disponible 🎥')">📹</button>
-            <button class="chact" title="Profil" onclick="sbOpenProfileFromChat()">ℹ</button>
+            <button class="chact" title="Profil" onclick="sbOpenProfileFromChat()">ℹ</button><button class="chact" title="Quitter" onclick="showPanel('workout', document.querySelector('.tabs .tab'))">×</button>
           </div>
         </div>
 
@@ -2743,8 +2749,16 @@ body.sb-classic-bubbles .cmrow.out .cbubble,body.sb-classic-bubbles .cmrow.in .c
   function showPanel(id, el) {
     document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
     document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
-    document.getElementById('panel-' + id).classList.add('active');
+    var panel = document.getElementById('panel-' + id);
+    if (panel) panel.classList.add('active');
     if (el) el.classList.add('active');
+    try {
+      document.getElementById('sbOverlay')?.classList.remove('open');
+      document.getElementById('sbAppearanceDrawer')?.classList.remove('open');
+      document.getElementById('sbProfileModal')?.classList.remove('open');
+      if (id !== 'chat') { document.getElementById('chatSidebar')?.classList.remove('slide-out'); }
+      window.scrollTo({top:0, behavior:'smooth'});
+    } catch(e) {}
   }
 
   function toggleCard(card) {
@@ -3450,26 +3464,10 @@ document.getElementById('resetBtn').onclick = async () => {
     }
 
     function demoConvs(){
-      const now=Date.now();
-      _convs=[
-        {id:'d1',name:'Keldy',     type:'direct',last_message:'Super séance bro !',last_message_at:new Date(now-600000).toISOString(),unread:2},
-        {id:'d2',name:'Yaya',      type:'direct',last_message:'Vidéo sparring envoyée',last_message_at:new Date(now-3600000).toISOString(),unread:0},
-        {id:'d3',name:'Équipe Stone Boxing',type:'group',last_message:'Entraîn. demain 18h',last_message_at:new Date(now-86400000).toISOString(),unread:4},
-        {id:'d4',name:'Coach',     type:'direct',last_message:'Bon boulot sur les hooks',last_message_at:new Date(now-172800000).toISOString(),unread:0},
-      ];
-      _msgs['d1']=[
-        {id:'m1',from:'Keldy',fid:'other',text:'Salut ! T\'as regardé le sparring d\'hier ?',t:new Date(now-7200000).toISOString(),type:'text'},
-        {id:'m2',from:'Moi',fid:_me?.id,text:'Pas encore, envoie !',t:new Date(now-7100000).toISOString(),type:'text'},
-        {id:'m3',from:'Keldy',fid:'other',text:'',t:new Date(now-7000000).toISOString(),type:'file',file:{name:'sparring_20nov.mp4',size:127*1024*1024,mime:'video/mp4',url:null}},
-        {id:'m4',from:'Moi',fid:_me?.id,text:'Merci, je regarde ce soir',t:new Date(now-5400000).toISOString(),type:'text',read:true},
-        {id:'m5',from:'Keldy',fid:'other',text:'Super séance bro !',t:new Date(now-600000).toISOString(),type:'text'},
-      ];
-      _msgs['d3']=[
-        {id:'g1',from:'Coach',fid:'coach',text:'Rappel séance pattes d\'ours jeudi 19h 🥊',t:new Date(now-90000000).toISOString(),type:'text'},
-        {id:'g2',from:'Yaya', fid:'yaya', text:'Présent',t:new Date(now-89000000).toISOString(),type:'text'},
-        {id:'g3',from:'Keldy',fid:'keldy',text:'',t:new Date(now-88000000).toISOString(),type:'file',file:{name:'programme_semaine.pdf',size:384*1024,mime:'application/pdf',url:null}},
-        {id:'g4',from:'Coach',fid:'coach',text:'Entraîn. demain 18h',t:new Date(now-3600000).toISOString(),type:'text'},
-      ];
+      // Version propre : plus de conversations de démonstration / messages test.
+      // Les vraies conversations apparaîtront depuis Supabase ou après création.
+      _convs=[];
+      _msgs={};
       renderConvList();
     }
 
@@ -5078,7 +5076,7 @@ document.getElementById('resetBtn').onclick = async () => {
 <div class="sb-dock" id="sbDock">
   <div class="sb-music" onclick="sbOpenMusicInfo()">
     <div class="sb-music-icon">♪</div>
-    <div class="sb-track"><div class="sb-track-name" id="sbTrackName">Playlist Stone Boxing</div><div class="sb-track-sub">Connecteur Spotify/Deezer prêt</div></div>
+    <div class="sb-track"><div class="sb-track-name" id="sbTrackName">Playlist Stone Boxing</div><div class="sb-track-sub">Spotify/Deezer à connecter</div></div>
   </div>
   <button class="sb-play" id="sbPlayBtn" onclick="sbTogglePlay(event)">▶</button>
   <button class="sb-timer-pill" onclick="showPanel('timer', document.querySelector('[onclick*=\'timer\']'))"><small>Timer</small><span id="sbMiniTimer">00:00</span></button>
@@ -5123,7 +5121,7 @@ document.getElementById('resetBtn').onclick = async () => {
   window.sbProfilePhoto=function(inp){const f=inp.files&&inp.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{const p=profile();p.photo=r.result;localStorage.setItem(profStore,JSON.stringify(p));renderProfile()}; r.readAsDataURL(f)}
   window.sbResetProfilePhoto=function(){const p=profile();delete p.photo;localStorage.setItem(profStore,JSON.stringify(p));renderProfile()}
   window.sbSaveProfile=function(){const p=profile();p.name=document.getElementById('sbProfileName')?.value||p.name||'Yannis Medjbar';p.bio=document.getElementById('sbProfileBio')?.value||'';p.goal=document.getElementById('sbProfileGoal')?.value||'';p.avail=document.getElementById('sbProfileAvail')?.value||'';p.level=document.getElementById('sbProfileLevel')?.value||'Intermédiaire';localStorage.setItem(profStore,JSON.stringify(p));renderProfile();sbCloseAll();alert('Profil enregistré sur cet appareil. Connexion Supabase profil à faire en étape suivante.')}
-  let playing=false; window.sbTogglePlay=function(e){e&&e.stopPropagation();playing=!playing;const b=document.getElementById('sbPlayBtn'); if(b) b.textContent=playing?'⏸':'▶'}
+  window.sbTogglePlay=function(e){e&&e.stopPropagation();alert('Le lecteur est un emplacement préparé. Lecture réelle Spotify/Deezer à connecter plus tard.')}
   window.sbOpenMusicInfo=function(){alert('Lecteur musique préparé. Étape suivante : connecter Spotify/Deezer ou ajouter les playlists officielles du club.')}
   // Timer discret: récupère l'affichage existant si présent
   setInterval(()=>{const out=document.getElementById('sbMiniTimer'); if(!out) return; const candidates=['t-active-time','timerTime','tTime','timer-time']; let val=''; for(const id of candidates){const el=document.getElementById(id); if(el&&el.textContent.trim()){val=el.textContent.trim();break}} const big=document.querySelector('.ta-big-number,.timer-time'); if(!val&&big) val=big.textContent.trim(); out.textContent=(val&&/^\d/.test(val))?val:'00:00';},500);
